@@ -1,21 +1,46 @@
-# Alguns exemplos simples 
+# Esse programa tem como objetivo apresentar alguns casos
+# que sao encontrados quando programando. 
 
 # 1 - print() 
+print("Oi") # 'Oi' 
 
-print("Oi") # 'Oi' sera mostrado
+# 2 - Variaveis (basico)
+numero = 1
+numero = 3
+print(numero) # 3
 
-# 2 - Variaveis 
+# 3 - Variaveis (avancado)
+a = 3
+b = 4
+a = b
+b = a
+print(a, b) # (4, 4) 
 
-x = 1
-x = 3
-print(x) # '3' sera mostrado 
+# 4 - Strings (basico)
+nome = "Fernando"
+print(nome) # 'Fernando' 
 
-# 3 - Caso mais complexo com variaveis
+# 5 - Strings (avancado)
+nome = "Pedro"
+sobrenome = "Psiquiati"
+print(nome + sobrenome) # 'PedroPsiquiati'
+print(nome + " " + sobrenome) # 'Pedro Psiquiati' 
 
-x = 3
-y = 4
-x = y
-y = x
-print(x, y)
+# 6 - Operacoes (basico)
+batatas = 9
+batatas = batatas + 1 # nao tenho certeza se usamos += ou nao 
+print(batatas) # 10 
+print("batatas") # 'batatas'
 
+# 7 - Operacoes (avancado)
+gatos = 15
+patas = 4 * gatos 
+print(patas) # 60
+ratos = 90
+ratos_para_gato = ratos / gatos
+print(ratos_para_gato) # 6
+
+# 8 - input()
+seu_nome = input()
+print('Oi, ' + seu_nome)
 
