@@ -40,6 +40,8 @@ ratos = 90
 ratos_para_gato = ratos / gatos
 print(ratos_para_gato) # 6
 
+# Apresentar potencia??
+ 
 # 8 - input()
 seu_nome = input()
 print('Oi, ' + seu_nome)
