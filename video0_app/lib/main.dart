@@ -26,9 +26,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int on = 1;
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -38,14 +38,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-              Text(
-              'Bem vindo ao',
-              style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)
+            ElevatedButton(
+                onPressed: _show,
+                child: Text('Clique Aqui',
+                    style: TextStyle(fontSize: 15, color: Colors.black))),
+            Container(
+              margin: EdgeInsets.all(20),
             ),
+            Text('Bem vindo ao',
+                style: TextStyle(
+                    color: on == 0 ? Colors.white : Colors.black,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold)),
             Image.asset('logo.jpg'),
           ],
         ),
       ),
     );
+  }
+
+  _show() {
+    on == 1 ? on = 0 : on =1;
+    return;
   }
 }
