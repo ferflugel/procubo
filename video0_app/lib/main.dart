@@ -58,7 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _show() {
-    on == 1 ? on = 0 : on =1;
+    setState(() {
+          on == 1 ? on = 0 : on = 1;
+        });
     return;
   }
 }
