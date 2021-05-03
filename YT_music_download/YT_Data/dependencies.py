@@ -1,4 +1,5 @@
 import os, sys, shutil
+from time import sleep
 
 libraries = ['pydub', 'youtube-dl', 'simple-image-download', 'mutagen', 'pafy']
 proceed=True
@@ -14,7 +15,16 @@ rootDir = os.getcwd().split('\\')[0]
 globalFolder = os.path.join(rootDir, "\\YT_Data")
 
 if os.getcwd() != globalFolder:
-    shutil.copytree(os.getcwd(), globalFolder)
+    try:
+        shutil.copytree(os.getcwd(), globalFolder)
+        proceed = False
+        print("\n\tFinal destination folder created at '%s'"%globalFolder)
+    except FileExistsError:
+        if len(os.listdir(globalFolder)) != len(os.listdir(os.getcwd())):
+            shutil.rmtree(globalFolder)
+            shutil.copytree(os.getcwd(), globalFolder)
+            proceed = False
+            print("\n\tFinal destination folder created at '%s'"%globalFolder)
 
 if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
     destinationFolder = input("""\n\tWhere do you want the downloaded files to be stored? (In Windows, e.g. "C:\\Users\\~root~\\Music\\")\n\n\t\t>>> """)
@@ -22,3 +32,8 @@ if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
     f = open(os.path.join(globalFolder, 'config.txt'), 'w')
     f.write(destinationFolder+'\n'+type)
     f.close()
+
+print("\n\t Continue reading the README.txt file for the next steps in automating the process...")
+sleep(3)
+end = input("\n\nPress 'enter' to close this windows after taking note of the information presented.")
+os.system("start %s"%globalFolder)
