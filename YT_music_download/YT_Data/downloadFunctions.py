@@ -57,8 +57,8 @@ def folderTitlteStandardization(title):
 
 def GetMetadata(file, aud):
     path = os.path.abspath(file)
-    pivotFile = "C:\\YT_Data\\pivotFile.mp3"  #"~~YOU MIGHT NEED TO CREATE A PIVOT FILE YOURSELF~~"
-    simpleImagesFolder = "C:\\YT_Data\\simple_images\\"
+    pivotFile = os.path.join(dependencies.globalFolder, "pivotFile.mp3")  #"~~YOU MIGHT NEED TO CREATE A PIVOT FILE YOURSELF~~"
+    simpleImagesFolder = os.path.join(dependencies.globalFolder, "simple_images")
     thumbnailFolder = os.path.join(simpleImagesFolder, folderTitlteStandardization(aud.title))    #"~~THE USED LIBRARY AUTOMATICALLY CREATES A FOLDER CALLED 'simple_images'"
 
     response = simp.simple_image_download()

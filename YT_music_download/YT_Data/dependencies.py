@@ -10,17 +10,15 @@ except Exception as e:
     proceed = False
 
 #Creating folder for data handling
-try:
-    os.mkdir("C:\\YT_Data")
-except FileExistsError:
-    pass
+rootDir = os.getcwd().split('\\')[0]
+globalFolder = os.path.join(rootDir, "\\YT_Data")
 
-if os.getcwd() != "C:\\YT_Data":
-    shutil.copytree(os.getcwd(), "C:\\YT_Data")
+if os.getcwd() != globalFolder:
+    shutil.copytree(os.getcwd(), globalFolder)
 
-if not os.path.exists('C:\\YT_Data\\dstFolder.txt'):
-    destinationFolder = input("""Where do you want the downloaded files to be stored? (In Windows, e.g. "C:\\Users\\~root~\\Music\\")\n        >>> """)
-    type = input("\nDo you want the videos to be downloaded as videos or audio? (0-audio and 1-video) >>> ")
-    f = open('C:\\YT_Data\\dstFolder.txt', 'w')
+if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
+    destinationFolder = input("""\n\tWhere do you want the downloaded files to be stored? (In Windows, e.g. "C:\\Users\\~root~\\Music\\")\n\n\t\t>>> """)
+    type = input("\n\n\tDo you want the videos to be downloaded as videos or audio? (type '0' for audio and '1' for video) \n\n\t\t>>> ")
+    f = open(os.path.join(globalFolder, 'config.txt'), 'w')
     f.write(destinationFolder+'\n'+type)
     f.close()
