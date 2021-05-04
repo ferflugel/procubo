@@ -33,7 +33,11 @@ if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
     f.write(destinationFolder+'\n'+type)
     f.close()
 
-print("\n\t Continue reading the README.txt file for the next steps in automating the process...")
-sleep(3)
-end = input("\n\nPress 'enter' to close this windows after taking note of the information presented.")
-os.system("start %s"%globalFolder)
+    g = open(os.path.join(globalFolder, 'runProgram.bat'), 'w')
+    g.write(""" "%s" "%s" """%(sys.executable, os.path.join(globalFolder, 'DownloadPlaylist.py')))
+    g.close()
+
+    print("\n\t Continue reading the README.txt file for the next steps in automating the process...")
+    sleep(3)
+    end = input("\n\nPress 'enter' to close this windows after taking note of the information presented.")
+    os.system("start %s"%globalFolder)
