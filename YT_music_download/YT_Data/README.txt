@@ -41,6 +41,7 @@ e.g.: 'C:\YT_Data\runProgram.bat'
 Click 'Next' and hit 'Finish'.
 
 
+
 Step 3: Now that the program was added to the Windows automated tasks, you must restart the computer
 for the changes to take effect. Once you've done that, YOU'RE DONE!
 
