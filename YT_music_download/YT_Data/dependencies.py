@@ -25,15 +25,21 @@ if os.getcwd() != globalFolder:
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
         os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%ffmpeg)
         os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
+        os.system("set PATH=%PATH%;%s"%os.path.join(os.path.join(os.path.join(globalFolder, "ffmpeg"), "ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared"), "bin"))
+        #ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared
+
     except FileExistsError:
         if len(os.listdir(globalFolder)) != len(os.listdir(os.getcwd())):
             shutil.rmtree(globalFolder)
             shutil.copytree(os.getcwd(), globalFolder)
             proceed = False
             print("\n\tFinal destination folder created at '%s'"%globalFolder)
+
             os.mkdir(os.path.join(globalFolder, "ffmpeg"))
             os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%(os.path.join(globalFolder, "ffmpeg")))
-
+            os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
+            os.system("set PATH=%PATH%;%s"%os.path.join(os.path.join(os.path.join(globalFolder, "ffmpeg"), "ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared"), "bin"))
+            
 
 
 

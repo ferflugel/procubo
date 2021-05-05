@@ -69,7 +69,6 @@ def GetMetadata(file, aud):
     thumbnail = os.path.join(thumbnailFolder, choice(os.listdir(thumbnailFolder)))
 
     os.system("""ffmpeg -loglevel warning -i "%s" -i "%s" -map_metadata 0 -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v comment="Cover (front)" "%s" """%(pivotFile, thumbnail, path))
-    # os.system("""ffmpeg -loglevel warning -i "%s" -i "%s" -map_metadata 0 -map 0 -map 1 "%s" """%(pivotFile, thumbnail, path))
 
     audio = EasyID3(str(path))
     audio['artist'] = aud.author
