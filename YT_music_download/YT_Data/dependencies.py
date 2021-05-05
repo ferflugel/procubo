@@ -24,10 +24,7 @@ if os.getcwd() != globalFolder:
         print(f"\n\tFinal destination folder created at '{globalFolder}'\n")
 
     except FileExistsError:
-        shutil.rmtree(globalFolder)
-        shutil.copytree(os.getcwd(), globalFolder)
-        proceed = False
-        print(f"\n\tFinal destination folder created at '{globalFolder}'\n")
+        logging.critical(f"Delete the folder {globalFolder} before continuing")
 
     try:
         os.mkdir(os.path.join(globalFolder, "ffmpeg"))
@@ -58,7 +55,8 @@ if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
     quietExec = sys.executable.split('.')
     quietExec[0] = quietExec[0]+'w'
     quietExec = '.'.join(quietExec)
-    g.write(""" "%s" "%s" """%(quietExec, os.path.join(globalFolder, 'DownloadPlaylist.py')))
+    g.write("echo YOU MAY CLOSE THIS WINDOW..\n.")
+    g.write("""\n "%s" "%s" """%(quietExec, os.path.join(globalFolder, 'DownloadPlaylist.py')))
     g.close()
 
     print("\n\t Continue reading the README.txt file for the next steps in automating the process...")
