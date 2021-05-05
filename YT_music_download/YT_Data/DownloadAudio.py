@@ -5,13 +5,13 @@ import pafy
 def download(aud, location):
     title = standardizeTitle(aud.title)
 
-    existence = find(title, location)
+    existence = find(title, location, 'mp3')
 
     if existence[0] == False:
         aud.getbestaudio().download(filepath=location, quiet=True)
         print("        Succesfully downloaded %s!"%(aud.title))
 
-        Cvt2Mp3(location, find(title, location)[1])    #Audio files usually come in .webm format, which some players cannot reproduce, so
+        Cvt2Mp3(location, find(title, location, 'mp3')[1])    #Audio files usually come in .webm format, which some players cannot reproduce, so
                                     #PyDub is used to convert them to .mp3
         print("        File converted to mp3!")
 

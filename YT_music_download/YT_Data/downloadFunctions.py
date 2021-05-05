@@ -1,4 +1,3 @@
-import dependencies
 import os
 from pydub import AudioSegment as audio
 from random import choice
@@ -6,13 +5,17 @@ from mutagen.easyid3 import EasyID3
 from simple_image_download import simple_image_download as simp
 import shutil
 
+
+rootDir = os.getcwd().split('\\')[0]
+globalFolder = os.path.join(rootDir, "\\YT_Data")
+
 #Find if 'file' is in the 'path' provided
-def find(file, path):
+def find(file, path, ext):
     contains = False
     nm = ""
     for root, dirs, files in os.walk(path):
         for name in files:
-            if name == file or ".".join(name.split('.')[:-1]) == file:
+            if (name == file or ".".join(name.split('.')[:-1]) == file) and name.split('.')[-1] == ext:
                 contains = True
                 nm = name
                 break
@@ -57,8 +60,8 @@ def folderTitlteStandardization(title):
 
 def GetMetadata(file, aud):
     path = os.path.abspath(file)
-    pivotFile = os.path.join(dependencies.globalFolder, "pivotFile.mp3")  #"~~YOU MIGHT NEED TO CREATE A PIVOT FILE YOURSELF~~"
-    simpleImagesFolder = os.path.join(dependencies.globalFolder, "simple_images")
+    pivotFile = os.path.join(globalFolder, "pivotFile.mp3")  #"~~YOU MIGHT NEED TO CREATE A PIVOT FILE YOURSELF~~"
+    simpleImagesFolder = os.path.join(globalFolder, "simple_images")
     thumbnailFolder = os.path.join(simpleImagesFolder, folderTitlteStandardization(aud.title))    #"~~THE USED LIBRARY AUTOMATICALLY CREATES A FOLDER CALLED 'simple_images'"
 
     response = simp.simple_image_download()
@@ -72,7 +75,11 @@ def GetMetadata(file, aud):
 
     audio = EasyID3(str(path))
     audio['artist'] = aud.author
+    audio['performer'] = aud.author
+    audio['composer'] = aud.author
     audio['title'] = aud.title
+    audio['date'] = aud.published.split('-')[0]
+    audio['originaldate'] = aud.published.split('-')[0]
 
     audio.save()
 
