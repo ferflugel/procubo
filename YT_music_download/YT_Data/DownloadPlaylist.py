@@ -25,41 +25,41 @@ if dependencies.proceed:
         index = 0
         state = dependencies.proceed
 
-        print("\n" + "*" + "-"*80 + "*" + "\n" + " "*5 + "-"*72 +"\n")  #Aesthetic spacer for command outputs
+        logging.info("\n" + "*" + "-"*80 + "*" + "\n" + " "*5 + "-"*72 +"\n")  #Aesthetic spacer for command outputs
 
         while state:
             if index > (len(playlist)-1):    #Check if there videos left to download
-                print("\tProcess finished successfully.\n")
-                print("\n" + " "*5 + "-"*72 + "\n" + "*" + "-"*80 + "*" + "\n")
+                logging.info("\tProcess finished successfully.\n")
+                logging.info("\n" + " "*5 + "-"*72 + "\n" + "*" + "-"*80 + "*" + "\n")
                 state = False
                 continue
             try:
                 if t == '1':        #Download as video
                     try:
                         vid = playlist[index]
-                        print("\nCurrently in number %i and music name is: %s"%(index, vid.title))
+                        logging.info("\n\tCurrently in number %i and music name is: %s"%(index, vid.title))
                         DownloadVideo.download(vid, location)
 
                     except Exception as e:
-                        print(e)
+                        logging.error(e)
                         sleep(0.5)
 
 
                 elif t == '0':    #Download as audio
                     try:
                         aud = playlist[index]
-                        print("Currently in number %i and music name is: %s"%(index, aud.title))
+                        logging.info("\n\tCurrently in number %i and music name is: %s"%(index, aud.title))
                         DownloadAudio.download(aud, location)
 
                     except Exception as e:
-                        print(e)
+                        logging.error(e)
                         sleep(0.5)
 
             except Exception as e:
-                print("Process couldn't be concluded!\n", e)
+                logging.error("Process couldn't be concluded!\n", e)
 
             index += 1    #Go to the next item in the playlist
-            print("\n"+"-"*80+"\n")    #Aesthetic spacer for command outputs
+            logging.info("\n"+"-"*80+"\n")    #Aesthetic spacer for command outputs
 
 
 if __name__ == "__main__":

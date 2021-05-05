@@ -5,7 +5,7 @@ libraries = ['pydub', 'youtube-dl', 'simple-image-download', 'mutagen', 'pafy']
 proceed=True
 
 try:
-    os.system("pip install --upgrade -q %s"%(" ".join(libraries)))
+    os.system("pip install --upgrade -q -q %s"%(" ".join(libraries)))
 except Exception as e:
     print("The following exception occurred:\n", e)
     proceed = False
@@ -54,10 +54,14 @@ if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
     f.close()
 
     g = open(os.path.join(globalFolder, 'runProgram.bat'), 'w')
-    g.write(""" "%s" "%s" """%(sys.executable, os.path.join(globalFolder, 'DownloadPlaylist.py')))
+    #exec = sys.executable
+    quietExec = sys.executable.split('.')
+    quietExec[0] = quietExec[0]+'w'
+    quietExec = '.'.join(quietExec)
+    g.write(""" "%s" "%s" """%(quietExec, os.path.join(globalFolder, 'DownloadPlaylist.py')))
     g.close()
 
     print("\n\t Continue reading the README.txt file for the next steps in automating the process...")
     sleep(3)
-    end = input("\n\nPress 'enter' to close this windows after taking note of the information presented.")
+    end = input("\n\nPress 'enter' to conclude this process after taking note of the information presented.")
     os.system("start %s"%globalFolder)
