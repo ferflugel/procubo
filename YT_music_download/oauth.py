@@ -4,6 +4,7 @@ import os
 import pickle 
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from googleapiclient.discovery import build
 
 credentials = None
 
@@ -34,4 +35,12 @@ if not credentials or not credentials.valid:
             print('Saving Credentials for Future Use...')
             pickle.dump(credentials, f)
 
-print(credentials.to_json())
+
+youtube = build("youtube", "v3", credentials = credentials)
+request = youtube.playlistItems().list(
+    part = "status", playlistId ="LLoYJm-CazxEVhojC9S6cH-g"
+)
+
+response = request.execute()
+
+print(response)
