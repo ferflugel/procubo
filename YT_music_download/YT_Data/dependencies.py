@@ -23,19 +23,23 @@ if os.getcwd() != globalFolder:
         print("\n\tFinal destination folder created at '%s'\n"%globalFolder)
 
     except FileExistsError:
-        if len(os.listdir(globalFolder)) != len(os.listdir(os.getcwd())):
-            shutil.rmtree(globalFolder)
-            shutil.copytree(os.getcwd(), globalFolder)
-            proceed = False
-            print("\n\tFinal destination folder created at '%s'"%globalFolder)
+        shutil.rmtree(globalFolder)
+        shutil.copytree(os.getcwd(), globalFolder)
+        proceed = False
+        print("\n\tFinal destination folder created at '%s'"%globalFolder)
 
     try:
         os.mkdir(os.path.join(globalFolder, "ffmpeg"))
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
         os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%ffmpeg)
         os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
-        pathBinFolder = os.path.join(os.path.join(os.path.join(globalFolder, "ffmpeg"), "ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared"), "bin")
-        sys.path.append(pathBinFolder)
+        zipFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), "ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared")
+        for file in os.listdir(zipFolder):
+            shutil.move(os.path.join(zipFolder, file), os.path.join(globalFolder, "ffmpeg"))
+
+        pathBinFolfer = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
+
+        os.system(f"""SETX /M PATH "%PATH%;{pathBinFolfer}" """)
     except Exception as e:
         print(e)
 
