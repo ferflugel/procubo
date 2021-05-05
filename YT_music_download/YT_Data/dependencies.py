@@ -21,13 +21,6 @@ if os.getcwd() != globalFolder:
         shutil.copytree(os.getcwd(), globalFolder)
         proceed = False
         print("\n\tFinal destination folder created at '%s'\n"%globalFolder)
-        os.mkdir(os.path.join(globalFolder, "ffmpeg"))
-        ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
-        os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%ffmpeg)
-        os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
-        pathBinFolder = os.path.join(os.path.join(os.path.join(globalFolder, "ffmpeg"), "ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared"), "bin")
-        os.system(f"set PATH=%PATH%;{pathBinFolder}")
-        #ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared
 
     except FileExistsError:
         if len(os.listdir(globalFolder)) != len(os.listdir(os.getcwd())):
@@ -36,12 +29,15 @@ if os.getcwd() != globalFolder:
             proceed = False
             print("\n\tFinal destination folder created at '%s'"%globalFolder)
 
-            os.mkdir(os.path.join(globalFolder, "ffmpeg"))
-            os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%(os.path.join(globalFolder, "ffmpeg")))
-            os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
-            pathBinFolder = os.path.join(os.path.join(os.path.join(globalFolder, "ffmpeg"), "ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared"), "bin")
-            os.system(f"set PATH=%PATH%;{pathBinFolder}")
-
+    try:
+        os.mkdir(os.path.join(globalFolder, "ffmpeg"))
+        ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
+        os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%ffmpeg)
+        os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
+        pathBinFolder = os.path.join(os.path.join(os.path.join(globalFolder, "ffmpeg"), "ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared"), "bin")
+        sys.path.append(pathBinFolder)
+    except Exception as e:
+        print(e)
 
 
 if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
