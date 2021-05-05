@@ -19,7 +19,7 @@ if not credentials or not credentials.valid:
     else:
         print('Fetching New Tokens...')
         flow = InstalledAppFlow.from_client_secrets_file(
-            'client_secrets.json',
+            '/Users/fernando/projeto/YT_music_download/client_secrets.json',
             scopes=[
                 'https://www.googleapis.com/auth/youtube.readonly'
             ]
