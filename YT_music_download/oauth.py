@@ -2,11 +2,13 @@
 
 import os
 import pickle 
+import time 
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 
 while True:
+    time.sleep(5)
     credentials = None
 
     if os.path.exists('token.pickle'):
@@ -39,12 +41,22 @@ while True:
 
     youtube = build("youtube", "v3", credentials = credentials)
     request = youtube.playlistItems().list(
-        part = "status", playlistId ="LLoYJm-CazxEVhojC9S6cH-g"
+        part = "status", playlistId ="LLoYJm-CazxEVhojC9S6cH-g", maxResults = 50
     )
 
     response = request.execute()
 
+    # Check for new ids
+    mem = open('memory.txt', 'r')
+    memory = mem.read()
+    for video in response['items']:
+        if video['id'] not in memory:
+            print(video['id']) # What should we do with the id?
+
+    # Update ids
+    IDs = ""
+    for video in response['items']:
+        IDs += video['id']
+        IDs += " \n"
     with open('memory.txt', 'w') as f:
-        for video in response['items']:
-            f.write(video['id'])
-            f.write("\n")
+        f.write(IDs)
