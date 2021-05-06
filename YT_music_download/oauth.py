@@ -11,11 +11,13 @@ while True:
     time.sleep(5)
     credentials = None
 
+    # If credentials were saved before
     if os.path.exists('token.pickle'):
         print('Loading Credentials From File...')
         with open('token.pickle', 'rb') as token:
             credentials = pickle.load(token)
 
+    # If we don't have any valid credentials
     if not credentials or not credentials.valid:
         if credentials and credentials.expired and credentials.refresh_token:
             print('Refreshing Access Token...')
@@ -38,12 +40,11 @@ while True:
                 print('Saving Credentials for Future Use...')
                 pickle.dump(credentials, f)
 
-
+    # Gets the YouTube data
     youtube = build("youtube", "v3", credentials = credentials)
     request = youtube.playlistItems().list(
         part = "status", playlistId ="LLoYJm-CazxEVhojC9S6cH-g", maxResults = 50
     )
-
     response = request.execute()
 
     # Check for new ids
