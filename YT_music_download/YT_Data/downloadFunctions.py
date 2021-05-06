@@ -76,7 +76,7 @@ def standardizeTitle(title):
     return T
 
 def folderTitlteStandardization(title):
-    forbidden = ['/', '?', '<', '>', ' ', ',', '|']
+    forbidden = ['/', '?', '<', '>', ' ', ',', '|', ' ']
     T = ""
     for ind in range(len(title)):
         if title[ind].lower() in forbidden:
