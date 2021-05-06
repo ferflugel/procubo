@@ -86,9 +86,9 @@ if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
     g = open(os.path.join(globalFolder, 'runProgram.bat'), 'w')
     #exec = sys.executable
     quietExec = sys.executable.split('.')
-    quietExec[0] = quietExec[0]+'w'
+    quietExec[-2] = quietExec[-2]+'w'
     quietExec = '.'.join(quietExec)
-    g.write("echo YOU MAY CLOSE THIS WINDOW..\n.")
+    g.write("echo YOU MAY CLOSE THIS WINDOW...\n")
     g.write("""\n "%s" "%s" """%(quietExec, os.path.join(globalFolder, 'DownloadPlaylist.py')))
     g.close()
 
