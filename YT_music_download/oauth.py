@@ -1,4 +1,4 @@
-# ORIGINAL CODE BY COREY SCHAFER
+# ORIGINAL CODE BY COREY SCHAFER, ADAPTED BY PROCUBO
 
 import os
 import pickle 
@@ -30,7 +30,6 @@ while True:
                     'https://www.googleapis.com/auth/youtube.readonly'
                 ]
             )
-
             flow.run_local_server(port=8080, prompt='consent',
                                 authorization_prompt_message='')
             credentials = flow.credentials
@@ -52,7 +51,8 @@ while True:
     memory = mem.read()
     for video in response['items']:
         if video['id'] not in memory:
-            print(video['id']) # What should we do with the id?
+            # print(video['id']) # What should we do with the id?
+            download()
 
     # Update ids
     IDs = ""
