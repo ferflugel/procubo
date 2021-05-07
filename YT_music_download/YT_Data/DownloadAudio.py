@@ -11,7 +11,7 @@ def download(aud, location):
         aud.getbestaudio().download(filepath=location, quiet=True)
         logging.info("\tSuccesfully downloaded %s!"%(aud.title))
 
-        Cvt2Mp3(location, find(title, location, 'mp3')[1])    #Audio files usually come in .webm format, which some players cannot reproduce, so
+        Cvt2Mp3(location, find(title, location, 'webm')[1])    #Audio files usually come in .webm format, which some players cannot reproduce, so
                                     #PyDub is used to convert them to .mp3
         logging.info("\tFile converted to mp3!")
 
