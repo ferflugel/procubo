@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./inputs.css">
+    <link rel="stylesheet" href="./graphs.css">
+    <title>Graph Generator</title>
+  </head>
+  <body>
+    <div id="main">    <!--Where everything will be... -->
+      <div id="inputs">    <!--Left side, options to be chosen are inside this div -->
+        <p class="Title">Inputs' class</p>
+
+        <div id="fileUpload">
+          <input type="file" id='actualBtn' accept=".csv, .txt" hidden/> <!-- Submit file option -->
+          <button type="button" id="customBtn">Choose a file</button>
+          <span id="customTxt">No file chosen</span>
+        </div>
+
+        <div class="inputOptions" id="Graph">    <!--//div to select the type of graph desired-->
+          <p>Select the desired type of graph: </p>
+          <i id="Btn" class="gg-chevron-right-o"></i>
+          <ul id="Selector" class="closedMenu">
+            <li>Bar</li>
+            <li>Pie</li>
+            <li>Line</li>
+            <li>Scatter plot</li>
+          </ul>
+          <!-- <input class="submitBTn" type="submit"> -->
+        </div>
+
+        <div class="inputOptions" id="Palette">
+          <p>Choose a color to be used in the graph:</p>
+          <i id="Btn" class="gg-chevron-right-o"></i>
+          <ul id="Selector" class="closedMenu">
+            <li>Color 1</li>
+            <li>Color 2</li>
+            <li>Color 3</li>
+            <li>Color 4</li>
+          </ul>
+          <!-- <input class="submitBTn" type="submit"> -->
+        </div>
+      </div>
+
+
+      <div id="graphs">
+        <p class="Title">Graphs' class</p>
+        <div class="Row" id="Line1">
+          <div class="Results">
+            <p>Graph n. 1</p>
+          </div>
+          <div class="Results">
+            <p>Graph n. 2</p>
+          </div>
+          <div class="Results">
+            <p>Graph n. 3</p>
+          </div>
+        </div>
+        <div class="Row" id="Line2">
+          <div class="Results">
+            <p>Graph n. 4</p>
+          </div>
+          <div class="Results">
+            <p>Graph n. 5</p>
+          </div>
+          <div class="Results">
+            <p>Graph n. 6</p>
+          </div>
+        </div>
+        <div class="Row" id="Line3">
+          <div class="Results">
+            <p>Graph n. 7</p>
+          </div>
+          <div class="Results">
+            <p>Graph n. 8</p>
+          </div>
+          <div class="Results">
+            <p>Graph n. 9</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="./script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;900&display=swap');
+
+#graphs {
+  position: relative;
+  width: 79.5%;
+  height: 100%;
+  margin-left: 0.5%;
+  text-align: center;
+  float: left;
+  border-radius: 25px;
+  box-shadow: -3px 3px 8px rgb(5, 5, 5);
+  /* background-color: #19695A; */
+}
+
+.Row {
+  position: relative;
+  margin: 0px 10px 0px 10px;
+  margin-top: 10px;
+  height: calc(calc(100% - 115px)/3);
+  /* border: 1px solid black; */
+}
+
+.Results {
+  position: relative;
+  display: inline-block;
+  width: 32%;
+  height: 100%;
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 12px;
+  transition: background-color 0.5s;
+}
+
+.Results:hover {
+  /* background-color: rgba(200, 200, 200, 0.49); */
+  background-color: rgba(0, 125, 100, 0.64);
+}
+
+.Results p {
+  position: absolute;
+  height: 15px;
+  font-size: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: -5px;
+}

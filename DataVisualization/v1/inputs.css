@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;900&display=swap');
+
+body {
+  background-color: white; <!-- rgba(25, 80, 105, 0.65);-->
+}
+
+#main {
+  position: absolute;
+  left: 2%;
+  top: 4%;
+  width: 96%;
+  height: 92%;
+}
+
+#inputs {
+  position: relative;
+  width: 19.5%;
+  height: 100%;
+  margin-right: 0.5%;
+  border-radius: 25px;
+  //background-color: #192869;
+  float: left;
+  text-align: center;
+  box-shadow: 3px 3px 8px rgb(5, 5, 5);
+}
+
+.Title {
+  font-size: 25px;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+}
+
+#fileUpload {
+  position: relative;
+  margin: 20px 10px 0px 10px;
+  height: 60px;
+  border-style: solid;
+  border-radius: 9px;
+  border-color: rgba(50,50,50,0.8);
+  border-width: 2px;
+}
+
+#customBtn {
+  margin: 13px 0px 0px 0px;
+  padding: 8px;
+  color: white;
+  background-color: #009578;
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#customBtn:hover {
+  background-color: #00b28f;
+}
+
+#customTxt {
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 300;
+  font-family: 'Roboto', sans-serif;
+  color: rgba(0,0,0);
+}
+
+.inputOptions {
+  position: relative;
+  margin: 20px 10px 0px 10px;
+  height: 100px;
+  border-style: solid;
+  border-radius: 9px;
+  border-color: rgba(50,50,50,0.8);
+  border-width: 2px;
+}
+
+.inputOptions p {
+  padding: 1px;
+  font-size: 15px;
+  font-weight: 300;
+  font-family: 'Roboto', sans-serif;
+}
