@@ -6,7 +6,7 @@ import time
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-from DownloadPlaylist import *
+#from DownloadPlaylist import *
 
 while True:
     playlist_id = "PLLcpBVEQD-CwpLaJzjFbKhBbAn2Wz4lle"
@@ -27,7 +27,7 @@ while True:
         else:
             print('Fetching New Tokens...')
             flow = InstalledAppFlow.from_client_secrets_file(
-                '/Users/fernando/projeto/YT_music_download/client_secrets.json',
+                'client_secrets.json',
                 scopes=[
                     'https://www.googleapis.com/auth/youtube.readonly'
                 ]
@@ -53,8 +53,8 @@ while True:
     memory = mem.read()
     for video in response['items']:
         if video['id'] not in memory:
-            #print(video['id']) # What should we do with the id?
-            DownloadPlaylist(f"https://www.youtube.com/playlist?list={playlist_id}")
+            print(video['id']) # What should we do with the id?
+            #DownloadPlaylist(f"https://www.youtube.com/playlist?list={playlist_id}")
 
     # Update ids
     IDs = ""
