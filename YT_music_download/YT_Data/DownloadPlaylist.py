@@ -11,7 +11,8 @@ if dependencies.proceed:
     pafy.set_api_key("AIzaSyBFhNzsCk8YhXsTacBxKm-_Jd9rKhSvrsc")   #API key can be found at Google Cloud Platform,
                                          #after creating a project and enabling YouTube Data API v3
 
-    def DownloadPlaylist(url):
+    def DownloadPlaylist():
+        url = "https://www.youtube.com/playlist?list=PLLcpBVEQD-CwpLaJzjFbKhBbAn2Wz4lle"
 
         with open(os.path.join(dependencies.globalFolder, 'config.txt'), 'r') as f:
             cont = f.read().split('\n')

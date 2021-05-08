@@ -1,9 +1,11 @@
-import os, sys, shutil, logging, argparse
+import os, sys, shutil, logging, argparse, subprocess
 from time import sleep
 
-libraries = ['pydub', 'youtube-dl', 'simple-image-download', 'mutagen', 'pafy']
+libraries = ['pydub', 'youtube-dl', 'mutagen', 'pafy', 'elevate', 'progressbar']
 proceed=True
 
+from elevate import elevate
+elevate()   #Ask for root permission to add to PATH
 
 #Configuring argparser for command line inputs
 parser = argparse.ArgumentParser()
@@ -64,13 +66,17 @@ if os.getcwd() != globalFolder:
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
         os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%ffmpeg)
         os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
+
         zipFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), os.listdir(os.path.join(globalFolder, "ffmpeg"))[0])
         for file in os.listdir(zipFolder):
             shutil.move(os.path.join(zipFolder, file), os.path.join(globalFolder, "ffmpeg"))
 
-        ffmpegFolder = '/'.join((os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")).split('\\'))
-        ffmpegDisplay = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
-        print(f"\n\tThis folder must be added to system PATH: \t{ffmpegDisplay}\n")
+        ffmpegFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
+        subprocess.call(fr"""setx /M PATH "%PATH%;{ffmpegFolder}" """, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, shell=True)     #Add to PATH without output
+        # os.system(fr"""setx /M PATH "%PATH%;{}" """)
+        # ffmpegFolder = '/'.join((os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")).split('\\'))
+        # ffmpegDisplay = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
+        # print(f"\n\tThis folder must be added to system PATH: \t{ffmpegDisplay}\n")
     except Exception as e:
         print(e)
         proceed = False
