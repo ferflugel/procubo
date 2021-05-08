@@ -8,6 +8,9 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 #from DownloadPlaylist import *
 
+with open('memory.txt', 'w') as f:
+    pass
+
 while True:
     playlist_id = "PLLcpBVEQD-CwpLaJzjFbKhBbAn2Wz4lle"
     time.sleep(5)
