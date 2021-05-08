@@ -6,8 +6,10 @@ import time
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
+from DownloadPlaylist import *
 
 while True:
+    playlist_id = "PLLcpBVEQD-CwpLaJzjFbKhBbAn2Wz4lle"
     time.sleep(5)
     credentials = None
 
@@ -42,7 +44,7 @@ while True:
     # Gets the YouTube data
     youtube = build("youtube", "v3", credentials = credentials)
     request = youtube.playlistItems().list(
-        part = "status", playlistId ="LLoYJm-CazxEVhojC9S6cH-g", maxResults = 50
+        part = "status", playlistId = playlist_id, maxResults = 50
     )
     response = request.execute()
 
@@ -51,8 +53,8 @@ while True:
     memory = mem.read()
     for video in response['items']:
         if video['id'] not in memory:
-            # print(video['id']) # What should we do with the id?
-            download()
+            #print(video['id']) # What should we do with the id?
+            DownloadPlaylist(f"https://www.youtube.com/playlist?list={playlist_id}")
 
     # Update ids
     IDs = ""
