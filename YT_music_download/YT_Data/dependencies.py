@@ -64,7 +64,7 @@ if os.getcwd() != globalFolder:
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
         os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%ffmpeg)
         os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
-        os.system("del ffmpeg.zip")
+        os.system(f"del {ffmpeg}")
         zipFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), os.listdir(os.path.join(globalFolder, "ffmpeg"))[0])
         for file in os.listdir(zipFolder):
             shutil.move(os.path.join(zipFolder, file), os.path.join(globalFolder, "ffmpeg"))
