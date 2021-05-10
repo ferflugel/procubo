@@ -15,7 +15,6 @@ parser.add_argument(
         "Example --log debug', default='warning'"),
     )
 
-
 options = parser.parse_args()
 levels = {
     'critical': logging.CRITICAL,
@@ -99,7 +98,7 @@ def Cvt2Mp3(loc, f_name):
     #
     return rnmFile+".mp3"
 
-
+#Updates file's metadata
 def GetMetadata(file, aud):
     path = os.path.abspath(file)    #Get file's absolute path (as a string)
 
@@ -138,3 +137,27 @@ def GetMetadata(file, aud):
     os.system("""rmdir "%s" """%thumbnailFolder)
     os.system("""rmdir "%s" """%simpleImagesFolder)
     os.remove(pivotFile)
+
+def getAllPlaylistItems(response):
+    #Inspiration from 'https://gist.github.com/nkpro2000sr/e6aa5429319d5143f19b6cc29567be0b'
+    nextPageToken = response.get('nextPageToken')
+    IDs = list()
+    while ( 'nextPageToken' in response ):
+        nextPage = youtube.search().list(
+            part = "status",
+            playlistId = playlist_id,
+            maxResults = 50,
+            pageToken=nextPageToken
+        ).execute()
+        #
+        response['items'] = response['items'] + nextPage['items']
+        #
+        if 'nextPageToken' not in nextPage:
+            search_response.pop('nextPageToken', None)
+        else:
+            nextPageToken = nextPage['nextPageToken']
+    #
+    for item in response['items']:
+        IDs.append(item['snippet']['resourceId']['videoId'])
+    #
+    return IDs
