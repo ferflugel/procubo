@@ -2,10 +2,16 @@ import os, sys, shutil, logging, argparse, subprocess
 from time import sleep
 
 libraries = ['pydub', 'youtube-dl', 'mutagen', 'pafy', 'elevate', 'progressbar']
-proceed=True
+proceed = True
 
-from elevate import elevate
-elevate()   #Ask for root permission to add to PATH
+#Creating folder for data handling
+rootDir = os.getcwd().split('\\')[0]
+globalFolder = os.path.join(rootDir, "\\YT_Data")
+ffmpegFolder = ""
+
+if os.getcwd() != globalFolder:
+    from elevate import elevate
+    elevate()   #Ask for root permission to add to PATH
 
 #Configuring argparser for command line inputs
 parser = argparse.ArgumentParser()
@@ -17,7 +23,6 @@ parser.add_argument(
         "Provide logging level. "
         "Example --log debug', default='warning'"),
     )
-
 
 options = parser.parse_args()
 levels = {
@@ -37,20 +42,13 @@ if level is None:
 logging.basicConfig(level=level)
 logger = logging.getLogger(__name__)
 
-
-
+#install required libraries
 try:
     os.system("pip install --upgrade -q -q %s"%(" ".join(libraries)))
 except Exception as e:
-    print("The following exception occurred:\n", e)
+    logging.error("The following exception occurred:\n", e)
     proceed = False
 
-
-
-#Creating folder for data handling
-rootDir = os.getcwd().split('\\')[0]
-globalFolder = os.path.join(rootDir, "\\YT_Data")
-ffmpegFolder = ""
 
 if os.getcwd() != globalFolder:
     try:
@@ -66,27 +64,26 @@ if os.getcwd() != globalFolder:
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
         os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%ffmpeg)
         os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
-
+        os.system(f"del {ffmpeg}")
         zipFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), os.listdir(os.path.join(globalFolder, "ffmpeg"))[0])
         for file in os.listdir(zipFolder):
             shutil.move(os.path.join(zipFolder, file), os.path.join(globalFolder, "ffmpeg"))
 
         ffmpegFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
         subprocess.call(fr"""setx /M PATH "%PATH%;{ffmpegFolder}" """, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, shell=True)     #Add to PATH without output
-        # os.system(fr"""setx /M PATH "%PATH%;{}" """)
-        # ffmpegFolder = '/'.join((os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")).split('\\'))
-        # ffmpegDisplay = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
-        # print(f"\n\tThis folder must be added to system PATH: \t{ffmpegDisplay}\n")
-    except Exception as e:
-        print(e)
-        proceed = False
 
+    except Exception as e:
+        logging.error(e)
+        proceed = False
 
 if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
     destinationFolder = input("""\n\tWhere do you want the downloaded files to be stored? (In Windows, e.g. "C:\\Users\\~root~\\Music\\")\n\n\t\t>>> """)
     type = input("\n\n\tDo you want the videos to be downloaded as videos or audio? (type '0' for audio and '1' for video) \n\n\t\t>>> ")
+    playlistID = input("\n\tPaste the URL of the playlist to be downloaded \n\n\t\t>>> ")
+
+    #Save info to config.txt
     f = open(os.path.join(globalFolder, 'config.txt'), 'w')
-    f.write(destinationFolder + '\n' + type + '\n' + ffmpegFolder + '\n' + globalFolder)
+    f.write(destinationFolder + '\n' + type + '\n' + ffmpegFolder + '\n' + globalFolder + '\n' + playlistID)
     f.close()
 
     g = open(os.path.join(globalFolder, 'runProgram.bat'), 'w')
