@@ -15,6 +15,6 @@ def spikes_counter(lst):
     m = (len[index+1][1] - len[index][1]) / (len[index+1][0] - len[index][0])
     if abs(m) > 2:
       spikes +=1
-  if spikes > 10:
-    return False
+    if spikes > 10:
+      return False
   return True
