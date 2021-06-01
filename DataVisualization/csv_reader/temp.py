@@ -25,3 +25,15 @@ def spikes_counter(lst):
         print(spikes)
         return False
     return True
+
+'''
+Ideias para spikes: 
+
+1) Definir o que é um SPIKE
+2) Definir uma porcentagem "aceitavel" de SPIKES 
+
+Ideias para districao:
+1) Método dos quartiles
+
+
+'''
