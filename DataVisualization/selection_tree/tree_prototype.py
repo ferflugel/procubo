@@ -18,7 +18,7 @@ one_col_graphs = ['column',
                   'pie',
                   'histogram']          # One column graphs
 two_col_graphs = ['scatter',
-                  'line']          # Two column graphs
+                  'line']               # Two column graphs
 
 if df.shape == 1:
     pass
@@ -29,6 +29,9 @@ else:
 
 #%% Style
 
+styles_options = ['white', 'dark', 'whitegrid', 'darkgrid']
+usr_style = input(f'Choose style {styles_options}')
+sns.set_style(usr_style)                                # Adds the style to the plot
 
 #%% Color
 
