@@ -11,8 +11,10 @@ def Download():
     rootDir = os.getcwd().split('\\')[0]
     globalFolder = os.path.join(rootDir, "\\YT_Data")
     f = open(os.path.join(globalFolder, 'config.txt'), 'w')
-    f.write(download_Path + '\n' + format + '\n' + globalFolder + '\n' + playlistID)
+    type = '0' if format.get() == 'Audio' else '1'
+    f.write(download_Path.get() + '\n' + type + '\n' + globalFolder + '\n' + playlistID.get())
     f.close()
+    root.destroy()
     import oauth_mod
 
 # Defining CreateWidgets() function

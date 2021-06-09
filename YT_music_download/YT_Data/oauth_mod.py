@@ -17,7 +17,7 @@ with open('memory.txt', 'w') as f:
 
 #Setting variables
 with open('config.txt', 'r') as f:
-    playlist_id = f.read().split('\n')[4]
+    playlist_id = f.read().split('\n')[3]
 credentials = None
 
 

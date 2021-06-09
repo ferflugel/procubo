@@ -33,6 +33,7 @@ if dependencies.proceed:
         except Exception as e:
             logging.error("Process couldn't be concluded!\n", e)
 
+
 if __name__ == "__main__":
   if dependencies.proceed:
       logging.info("Dependencies already set up...\n")

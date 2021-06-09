@@ -66,10 +66,12 @@ if execDir != globalFolder:
         http = httplib2.Http()
         ffmpegLink = ""
         status, response = http.request('https://github.com/BtbN/FFmpeg-Builds/releases/')
-        for link in BeautifulSoup(response, parse_only=SoupStrainer('a')):
+        for link in BeautifulSoup(response, parse_only=SoupStrainer('a'), features="html.parser"):
             if link.has_attr('href'):
-                if 'win64' link['href'] and link['href'].split('.')[-1] == 'zip':
+                if 'win64' in link['href'] and link['href'].split('.')[-1] == 'zip' and 'shared' in link['href']:
                     ffmpegLink = "https://github.com/"+link['href']
+                    print(ffmpegLink)
+                    break
 
         os.mkdir(os.path.join(globalFolder, "ffmpeg"))
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
