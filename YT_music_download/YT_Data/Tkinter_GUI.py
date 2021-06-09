@@ -1,13 +1,19 @@
 from tkinter import *
 from tkinter.filedialog import askdirectory
+import os, dependencies
 
 #This function enables browsing for the destination folder
 def Browse():
     download_Path.set( askdirectory() )
 
-#This function calls the other python file to download the playlist
+#This function calls the python file to download the playlist
 def Download():
-
+    rootDir = os.getcwd().split('\\')[0]
+    globalFolder = os.path.join(rootDir, "\\YT_Data")
+    f = open(os.path.join(globalFolder, 'config.txt'), 'w')
+    f.write(download_Path + '\n' + format + '\n' + globalFolder + '\n' + playlistID)
+    f.close()
+    import oauth_mod
 
 # Defining CreateWidgets() function
 # to create necessary tkinter widgets
@@ -22,7 +28,7 @@ def Widgets():
 
     root.linkText = Entry(root,
                           width=40,
-                          textvariable=playlist_code)
+                          textvariable=playlistID)
     root.linkText.grid(row=1,
                        column=1,
                        pady=10,
@@ -38,7 +44,7 @@ def Widgets():
                       padx=10)
 
     root.formatmenu = OptionMenu(root,
-                                 clicked,
+                                 format,
                                  "Audio",
                                  "Video")
     root.formatmenu.grid(row=2,
@@ -77,7 +83,7 @@ def Widgets():
 
     Download_B = Button(root,
                         text="Download",
-                        #command=Download,
+                        command=Download,
                         width=20,
                         bg="#05E8E0")
     Download_B.grid(row=4,
@@ -98,10 +104,10 @@ root.title("Playlist_Downloader")
 root.config(background="#000000")
 
 # Creating the tkinter Variables
-playlist_code = StringVar()
+playlistID = StringVar()
 download_Path = StringVar()
-clicked = StringVar()
-clicked.set("Audio")
+format = StringVar()
+format.set("Audio")
 
 # Calling the Widgets() function
 Widgets()

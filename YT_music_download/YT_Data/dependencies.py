@@ -1,15 +1,16 @@
 import os, sys, shutil, logging, argparse, subprocess
 from time import sleep
 
-libraries = ['pydub', 'youtube-dl', 'mutagen', 'pafy', 'elevate', 'progressbar']
+libraries = ['pydub', 'youtube-dl', 'mutagen', 'pafy', 'elevate', 'progressbar', 'httplib2', 'bs4']
 proceed = True
 
 #Creating folder for data handling
-rootDir = os.getcwd().split('\\')[0]
+execDir = "\\".join( ( __file__ ).split('\\')[:-1])
+rootDir = execDir.split('\\')[0]
 globalFolder = os.path.join(rootDir, "\\YT_Data")
 ffmpegFolder = ""
 
-if os.getcwd() != globalFolder:
+if execDir != globalFolder:
     from elevate import elevate
     elevate()   #Ask for root permission to add to PATH
 
@@ -50,9 +51,9 @@ except Exception as e:
     proceed = False
 
 
-if os.getcwd() != globalFolder:
+if execDir != globalFolder:
     try:
-        shutil.copytree(os.getcwd(), globalFolder)
+        shutil.copytree(execDir, globalFolder)
         proceed = False
         print(f"\n\tFinal destination folder created at '{globalFolder}'\n")
 
@@ -60,9 +61,19 @@ if os.getcwd() != globalFolder:
         logging.critical(f"Delete the folder {globalFolder} before continuing")
 
     try:
+        import httplib2
+        from bs4 import BeautifulSoup, SoupStrainer
+        http = httplib2.Http()
+        ffmpegLink = ""
+        status, response = http.request('https://github.com/BtbN/FFmpeg-Builds/releases/')
+        for link in BeautifulSoup(response, parse_only=SoupStrainer('a')):
+            if link.has_attr('href'):
+                if 'win64' link['href'] and link['href'].split('.')[-1] == 'zip':
+                    ffmpegLink = "https://github.com/"+link['href']
+
         os.mkdir(os.path.join(globalFolder, "ffmpeg"))
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
-        os.system("curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2021-05-04-12-33/ffmpeg-N-102349-ge27e80edcd-win64-gpl-shared.zip -o %s"%ffmpeg)
+        os.system("curl -L %s -o %s"%(ffmpegLink, ffmpeg))
         os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
         os.system(f"del {ffmpeg}")
         zipFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), os.listdir(os.path.join(globalFolder, "ffmpeg"))[0])
@@ -76,24 +87,6 @@ if os.getcwd() != globalFolder:
         logging.error(e)
         proceed = False
 
-if not os.path.exists(os.path.join(globalFolder, 'config.txt')):
-    destinationFolder = input("""\n\tWhere do you want the downloaded files to be stored? (In Windows, e.g. "C:\\Users\\~root~\\Music\\")\n\n\t\t>>> """)
-    type = input("\n\n\tDo you want the videos to be downloaded as videos or audio? (type '0' for audio and '1' for video) \n\n\t\t>>> ")
-    playlistID = input("\n\tPaste the URL of the playlist to be downloaded \n\n\t\t>>> ")
-
-    #Save info to config.txt
-    f = open(os.path.join(globalFolder, 'config.txt'), 'w')
-    f.write(destinationFolder + '\n' + type + '\n' + ffmpegFolder + '\n' + globalFolder + '\n' + playlistID)
-    f.close()
-
-    g = open(os.path.join(globalFolder, 'runProgram.bat'), 'w')
-    #exec = sys.executable
-    quietExec = sys.executable.split('.')
-    quietExec[-2] = quietExec[-2]+'w'
-    quietExec = '.'.join(quietExec)
-    g.write("echo YOU MAY CLOSE THIS WINDOW...\n")
-    g.write("""\n "%s" "%s" """%(quietExec, os.path.join(globalFolder, 'DownloadPlaylist.py')))
-    g.close()
 
     print("\n\t Continue reading the README.txt file for the next steps in automating the process...")
     sleep(3)
