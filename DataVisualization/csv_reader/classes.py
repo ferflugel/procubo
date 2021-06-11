@@ -28,7 +28,7 @@ class Plot:
 
     def savePlot(self, x_label=self.data.keys()[self.X_axis], y_label='value', index=1):
         self.ax.set(xlabel=x_label, ylabel=y_label)
-        plt.savefig("plot_%.3d"%(0+index))
+        plt.savefig("plot_%.3d.png"%(0+index))
 
     def show(self):
         plt.show()
