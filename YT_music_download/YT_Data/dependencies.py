@@ -1,19 +1,6 @@
 import os, sys, shutil, logging, argparse, subprocess
 from time import sleep
 
-libraries = ['pydub', 'youtube-dl', 'mutagen', 'pafy', 'elevate', 'progressbar', 'httplib2', 'bs4']
-proceed = True
-
-#Creating folder for data handling
-execDir = "\\".join( ( __file__ ).split('\\')[:-1])
-rootDir = execDir.split('\\')[0]
-globalFolder = os.path.join(rootDir, "\\YT_Data")
-ffmpegFolder = ""
-
-if execDir != globalFolder:
-    from elevate import elevate
-    elevate()   #Ask for root permission to add to PATH
-
 #Configuring argparser for command line inputs
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -43,24 +30,38 @@ if level is None:
 logging.basicConfig(level=level)
 logger = logging.getLogger(__name__)
 
+
+libraries = ['pydub', 'youtube-dl', 'mutagen', 'pafy', 'elevate', 'progressbar', 'httplib2', 'bs4']
+proceed = True
+
 #install required libraries
 try:
     os.system("pip install --upgrade -q -q %s"%(" ".join(libraries)))
 except Exception as e:
     logging.error("The following exception occurred:\n", e)
-    proceed = False
+
+
+#Creating folder for data handling
+execDir = "\\".join( ( __file__ ).split('\\')[:-1])
+rootDir = execDir.split('\\')[0]
+globalFolder = os.path.join(rootDir, "\\YT_Data")
+ffmpegFolder = ""
 
 
 if execDir != globalFolder:
+    from elevate import elevate
+    elevate()   #Ask for root permission to add to PATH
+    proceed = False
+    
     try:
         shutil.copytree(execDir, globalFolder)
-        proceed = False
         print(f"\n\tFinal destination folder created at '{globalFolder}'\n")
 
     except FileExistsError:
         logging.critical(f"Delete the folder {globalFolder} before continuing")
 
     try:
+        #This part retrieves the latest FFmpeg upload link from Github
         import httplib2
         from bs4 import BeautifulSoup, SoupStrainer
         http = httplib2.Http()
@@ -73,6 +74,7 @@ if execDir != globalFolder:
                     print(ffmpegLink)
                     break
 
+        #Downloads the FFmpeg '.zip' file and extracts it
         os.mkdir(os.path.join(globalFolder, "ffmpeg"))
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
         os.system("curl -L %s -o %s"%(ffmpegLink, ffmpeg))
@@ -82,6 +84,7 @@ if execDir != globalFolder:
         for file in os.listdir(zipFolder):
             shutil.move(os.path.join(zipFolder, file), os.path.join(globalFolder, "ffmpeg"))
 
+        #Adds the ffmpeg executable to system environment variables
         ffmpegFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
         subprocess.call(fr"""setx /M PATH "%PATH%;{ffmpegFolder}" """, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, shell=True)     #Add to PATH without output
 

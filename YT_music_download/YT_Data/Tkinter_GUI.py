@@ -93,27 +93,30 @@ def Widgets():
                     pady=3,
                     padx=3)
 
+if __name__=='__main__':
+    if dependencies.proceed:
+        # Creating object of tk class
+        root = Tk()
 
-# Creating object of tk class
-root = Tk()
+        # Setting the title, background color
+        # and size of the tkinter window and
+        # disabling the resizing property
 
-# Setting the title, background color
-# and size of the tkinter window and
-# disabling the resizing property
+        root.resizable(False, False)
+        root.title("Playlist_Downloader")
+        root.config(background="#000000")
 
-root.resizable(False, False)
-root.title("Playlist_Downloader")
-root.config(background="#000000")
+        # Creating the tkinter Variables
+        playlistID = StringVar()
+        download_Path = StringVar()
+        format = StringVar()
+        format.set("Audio")
 
-# Creating the tkinter Variables
-playlistID = StringVar()
-download_Path = StringVar()
-format = StringVar()
-format.set("Audio")
+        # Calling the Widgets() function
+        Widgets()
 
-# Calling the Widgets() function
-Widgets()
-
-# Defining infinite loop to run
-# application
-root.mainloop()
+        # Defining infinite loop to run
+        # application
+        root.mainloop()
+    else:
+        
