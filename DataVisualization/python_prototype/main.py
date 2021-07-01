@@ -9,8 +9,3 @@ plot_type = select_plot(len(variables))    # Selects plot type
 plot = Plot(plot_type)                     # Creates a plot object
 
 plot.select_color()                        # Selects color palette
-
-
-#%%
-sns.histplot(x = variables[0], data=df)
-plt.show()
