@@ -26,7 +26,7 @@ elif df.shape[1] == 2:                                                     # Use
     plot_type = input(f'Select the plot type: {two_col_graphs}')
 else:
     plot_type = None
-    print('Not available yet :(')                                       # Only one and two columns are accepted
+    print('Not available yet :(')                                          # Only one and two columns are accepted
 
 #%% Style
 
@@ -63,5 +63,18 @@ else:
 #%% Title, axis, and showing plot
 
 set_title()           # Adds a nice title
-set_axis()            # Adds axis labels
+# set_axis()            # Adds axis labels
 plt.show()            # Shows the plot
+
+#%%
+
+df = sns.load_dataset('tips')
+
+def plot_prototype(df):
+    sns.set_palette('crest')
+    sns.set_style('dark')
+    usr_columns = ['total_bill', 'smoker']
+    sns.scatterplot(x=usr_columns[0], y=usr_columns[1], data=df)
+    plt.show()
+
+plot_prototype(df)

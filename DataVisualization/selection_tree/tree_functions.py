@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt     # Used to plotting basics
 import seaborn as sns               # Used to get data sets and plotting style
 
 def set_title():
-    title = input('Choose a tile for your plot')        # Asks for title
+    title = input('Choose a title for your plot')        # Asks for title
     plt.title(title)                                    # Adds title to plot
 
 def set_axis():
