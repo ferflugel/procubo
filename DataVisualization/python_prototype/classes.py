@@ -3,9 +3,16 @@ class Plot:
         self.plot_type = plot_type
         self.color = 'pastel'
 
-    def select_color(self):
+    def select_attributes(self):
         self.color = input(f'Select plot color:')
-
+        self.style = input(f'Select plot style:')
+        self.text = input(f'Insert text:')
+        self.title = input(f'Insert title:')
+        self.legend = input(f'Insert legend:')
+        self.scale = input(f'Select plot scale:')
+        self.transprency = input(f'Select plot transparency:')
+        self.despine = input(f'Select plot despine:')
+        
 class ColumnPlot(Plot):
     pass
 
