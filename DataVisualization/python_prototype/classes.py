@@ -38,8 +38,8 @@ class ScatterPlot(Plot):
     pass
 
 class LinePlot(Plot):
-    def __init__(self, plot_type):
-        super().__init__(plot_type)
+    def __init__(self, plot_type, data, columns):
+        super().__init__(plot_type, data, columns)
         self.line_style = '-'
         self.line_width = 1
     
