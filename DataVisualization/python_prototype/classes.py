@@ -4,5 +4,22 @@ class Plot:
         self.color = 'pastel'
 
     def select_color(self):
-        color = input(f'Select plot color:')
-        self.color = color
+        self.color = input(f'Select plot color:')
+
+class ColumnPlot(Plot):
+    pass
+
+class Histogram(Plot):
+    pass
+
+class PieChart(Plot):
+    pass
+
+class DonutChart(Plot):
+    pass
+
+class ScatterPlot(Plot):
+    pass
+
+class LinePlot(Plot):
+    pass
