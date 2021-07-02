@@ -1,5 +1,5 @@
 class Plot:
-    def __init__(self, plot_type):
+    def __init__(self, plot_type, xdata, ydata):
         self.plot_type = plot_type
         self.color = 'pastel'
         self.style = 'white'
