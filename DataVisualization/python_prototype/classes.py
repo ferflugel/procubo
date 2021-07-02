@@ -1,5 +1,5 @@
 class Plot:
-    def __init__(self, plot_type, xdata, ydata):
+    def __init__(self, plot_type, data, columns):
         self.plot_type = plot_type
         self.color = 'pastel'
         self.style = 'white'
@@ -9,8 +9,8 @@ class Plot:
         self.scale = ''
         self.transparency = 1
         self.despine = False
-        self.x_data = xdata
-        self.y_data = ydata
+        self.data = data
+        self.columns = columns
         
     def select_attributes(self):
         self.color = input(f'Select plot color:')
