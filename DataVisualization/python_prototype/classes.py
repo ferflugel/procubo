@@ -9,7 +9,9 @@ class Plot:
         self.scale = ''
         self.transprency = 1
         self.despine = False
-
+        self.xdata = xdata
+        self.ydata = ydata
+        
     def select_attributes(self):
         self.color = input(f'Select plot color:')
         self.style = input(f'Select plot style:')
