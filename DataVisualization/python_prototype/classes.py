@@ -38,4 +38,12 @@ class ScatterPlot(Plot):
     pass
 
 class LinePlot(Plot):
-    pass
+    def __init__(self, plot_type):
+        super().__init__(plot_type)
+        self.line_style = '-'
+        self.line_width = 1
+    
+    def select_style(self):
+        self.line_style = input(f'Select line style: ')
+    def select_width(self):
+        self.line_width = input(f'Select line width: ')
