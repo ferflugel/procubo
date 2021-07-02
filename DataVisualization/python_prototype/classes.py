@@ -2,6 +2,13 @@ class Plot:
     def __init__(self, plot_type):
         self.plot_type = plot_type
         self.color = 'pastel'
+        self.style = 'white'
+        self.text = ''
+        self.title = ''
+        self.legend = ''
+        self.scale = ''
+        self.transprency = 1
+        self.despine = False
 
     def select_attributes(self):
         self.color = input(f'Select plot color:')
