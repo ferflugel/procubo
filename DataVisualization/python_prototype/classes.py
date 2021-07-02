@@ -43,7 +43,6 @@ class LinePlot(Plot):
         self.line_style = '-'
         self.line_width = 1
     
-    def select_style(self):
+    def select_specific_attributes(self):
         self.line_style = input(f'Select line style: ')
-    def select_width(self):
         self.line_width = input(f'Select line width: ')

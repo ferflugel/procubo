@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from classes import *
 
 def get_variables(df):
     usr_columns = input(f'Select columns: \n {list(df.columns)}')
@@ -19,13 +20,31 @@ def select_plot(number_of_variables):
         type_of_plot = 'None'
     return type_of_plot
 
-def select_color(plot):
-    color = input(f'Select plot color:')
-    plot.color = color
+def create_plot(plot_type, data, variables):
+    if plot_type == 'column':
+        return ColumnPlot(plot_type, data, variables)
+    elif plot_type == 'histogram':
+        return Histogram(plot_type, data, variables)
+    elif plot_type == 'pie':
+        return PieChart(plot_type, data, variables)
+    elif plot_type == 'donut':
+        return DonutChart(plot_type, data, variables)
+    elif plot_type == 'scatter':
+        return ScatterPlot(plot_type, data, variables)
+    elif plot_type == 'line':
+        return LinePlot(plot_type, data, variables)
+    else:
+        print('Invalid plot type')
+        return False
 
-def plot_adjustments(text= '', scale='', legend=False, despine=False, ):
+'''         HELPER FUNCTIONS         '''
+
+def plot_adjustments(text= '', scale='', legend=False, despine=False, title=''):
     plt.text(10, 10, text)
     plt.xscale = scale
     plt.yscale = scale
+    plt.title = title
     if despine is True:
         sns.despine()
+    if legend is True:
+        plt.legend()
