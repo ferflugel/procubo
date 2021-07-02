@@ -23,3 +23,9 @@ def select_color(plot):
     color = input(f'Select plot color:')
     plot.color = color
 
+def plot_adjustments(text= '', scale='', legend=False, despine=False, ):
+    plt.text(10, 10, text)
+    plt.xscale = scale
+    plt.yscale = scale
+    if despine is True:
+        sns.despine()

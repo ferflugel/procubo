@@ -7,10 +7,10 @@ class Plot:
         self.title = ''
         self.legend = ''
         self.scale = ''
-        self.transprency = 1
+        self.transparency = 1
         self.despine = False
-        self.xdata = xdata
-        self.ydata = ydata
+        self.x_data = xdata
+        self.y_data = ydata
         
     def select_attributes(self):
         self.color = input(f'Select plot color:')
@@ -19,7 +19,7 @@ class Plot:
         self.title = input(f'Insert title:')
         self.legend = input(f'Insert legend:')
         self.scale = input(f'Select plot scale:')
-        self.transprency = input(f'Select plot transparency:')
+        self.transparency = input(f'Select plot transparency:')
         self.despine = input(f'Select plot despine:')
         
 class ColumnPlot(Plot):
