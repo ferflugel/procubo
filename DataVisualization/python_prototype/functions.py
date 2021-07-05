@@ -1,6 +1,4 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from classes import *
 
 def get_variables(df):
@@ -37,14 +35,3 @@ def create_plot(plot_type, data, variables):
         print('Invalid plot type')
         return False
 
-'''         HELPER FUNCTIONS         '''
-
-def plot_adjustments(text= '', scale='', legend=False, despine=False, title=''):
-    plt.text(10, 10, text)
-    plt.xscale = scale
-    plt.yscale = scale
-    plt.title = title
-    if despine is True:
-        sns.despine()
-    if legend is True:
-        plt.legend()

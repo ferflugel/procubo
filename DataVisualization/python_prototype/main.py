@@ -9,4 +9,6 @@ plot = create_plot(plot_type, df, variables)            # Creates a plot object
 
 plot.select_attributes()                                # General attributes
 plot.select_specific_attributes()                       # Specific attributes
-plot.show_plot()                                        #
+plot.plot_style()                                       # Style and palette
+plot.plot()                                             # Shows the plot to the user
+plot.plot_adjustments()                                 # Adjusts extra parameters
