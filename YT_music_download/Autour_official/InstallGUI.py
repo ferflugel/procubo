@@ -1,24 +1,15 @@
 from tkinter import *
 from tkinter.filedialog import askdirectory
-import os, dependencies
 
 #This function enables browsing for the destination folder
 def Browse():
     download_Path.set( askdirectory() )
 
-#This function calls the python file to download the playlist
-def Download():
-    rootDir = os.getcwd().split('\\')[0]
-    globalFolder = os.path.join(rootDir, "\\YT_Data")
-    f = open(os.path.join(globalFolder, 'config.txt'), 'w')
-    type = '0' if format.get() == 'Audio' else '1'
-    f.write(download_Path.get() + '\n' + type + '\n' + globalFolder + '\n' + playlistID.get())
-    f.close()
-    root.destroy()
-    import oauth_mod
+def Installer():
+    import dependenciesinstaller as depInst
+    if depInst.dependenciesAvailable:
+        depInst.Install(download_Path)
 
-# Defining CreateWidgets() function
-# to create necessary tkinter widgets
 def Widgets():
     link_label = Label(root,
                        text="Playlist code :",
@@ -93,30 +84,30 @@ def Widgets():
                     pady=3,
                     padx=3)
 
+
 if __name__=='__main__':
-    if dependencies.proceed:
-        # Creating object of tk class
-        root = Tk()
+    # Creating object of tk class
+    root = Tk()
 
-        # Setting the title, background color
-        # and size of the tkinter window and
-        # disabling the resizing property
+    # Setting the title, background color
+    # and size of the tkinter window and
+    # disabling the resizing property
 
-        root.resizable(False, False)
-        root.title("Playlist_Downloader")
-        root.config(background="#000000")
+    root.resizable(False, False)
+    root.title("Autour Installer")
+    root.config(background="#000000")
 
-        # Creating the tkinter Variables
-        playlistID = StringVar()
-        download_Path = StringVar()
-        format = StringVar()
-        format.set("Audio")
+    # Creating the tkinter Variables
+    playlistID = StringVar()
+    download_Path = StringVar()
+    format = StringVar()
+    format.set("Audio")
 
-        # Calling the Widgets() function
-        Widgets()
+    # Calling the Widgets() function
+    Widgets()
 
-        # Defining infinite loop to run
-        # application
-        root.mainloop()
-    else:
-        
+    # Defining infinite loop to run
+    # application
+    root.mainloop()
+else:
+    print("This file must be run through the command line, and cannot be imported...")
