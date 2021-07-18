@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;900&display=swap');
+@import url('https://css.gg/css?=|chevron-double-right-o|chevron-right-o|close-o');
+
+p{
+    padding: 230px;
+    text-align: center;
+    font-size: 35px;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+#customBtn {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    height: 120px;
+    width: 250px;
+    background-color: #00FF9C;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    border-style: none;
+    border-radius: 10px;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#nextPage{
+    position: absolute;
+    top: 67%;
+    left: 50%;
+    height: 50px;
+    width: 50px;
+    background-color: #00FF9C;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    border-style: none;
+    border-radius: 60px;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+

@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ProVisual</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>ProVisual</title>
+        <link rel="stylesheet" href="./main.css">
+    </head>
+    <body>
 
-</body>
+        <div class="container">
+          <p>welcome to <b>provisual,</b><br>please select your file</p>
+        </div>
+
+        <div id="fileUpload">
+            <input type="file" id='actualBtn' accept=".csv, .txt" hidden/> <!-- Submit file option -->
+            <button type="button" id="customBtn">upload file</button>
+            <span id="customTxt"></span>
+        </div>
+
+
+        <div style="align-self: center">
+          <button
+                  type="button" href="columns.html" id="nextPage">>
+          </button>
+        </div>
+
+    </body>
 </html>
