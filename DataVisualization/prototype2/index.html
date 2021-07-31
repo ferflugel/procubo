@@ -6,12 +6,24 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h1>welcome to <b>provisual</b>, please select your file</h1>
-        <form>
-            <p>upload file</p>
+        <div id="headline">
+            <p id="title">Welcome to <b>ProVisual</b></p>
+            <p id="subtitle">Select a file to begin</p>
+        </div>
+
+
+        <form action="columns.html" method="GET">
             <input type="file" name="data" accept=".csv" /><br />
-            <input type="submit" value="Upload" />
+            <div>
+              <i class="gg-arrow-long-right"></i>
+              <input type="submit" value=">" id="nextPage"/>
+            </div>
+
         </form>
-    <a href="columns.html">Next</a>
+
+        <div id="uploadFile">
+            <h2>upload file</h2>
+        </div>
+
     </body>
 </html>

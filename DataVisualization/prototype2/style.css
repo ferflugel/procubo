@@ -1,4 +1,78 @@
-h1{
+#headline{
+    position: absolute;
+    height: 150px;
+    width:100%;
+    margin: -8px;
+    padding: 0px;
+    background-image: linear-gradient(-170deg, rgba(0, 255, 156, 0.9), rgba(0, 179, 109, 0.9));
+}
+
+#headline > #title {
     font-family: 'Roboto', sans-serif;
     text-align: center;
+    font-size: 40px;
+}
+
+#headline > #subtitle {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    font-size: 25px;
+}
+
+h2{
+    font-family: 'Roboto', sans-serif;
+    font-size: larger;
+    text-align: center;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
+input[type=file]{
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    height: 120px;
+    width: 250px;
+    background-color: #00FF9C;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    border-style: none;
+    border-radius: 10px;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+#nextPage{
+    position: absolute;
+    top: 90%;
+    left: 90%;
+    height: 50px;
+    width: 50px;
+    background-color: #00FF9C;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    border-style: none;
+    border-radius: 60px;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}
+
+#uploadFile{
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    height: 120px;
+    width: 250px;
+    background-color: #00FF9C;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    border-style: none;
+    border-radius: 10px;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
