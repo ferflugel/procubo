@@ -1,22 +1,38 @@
+:root {
+  --headline-height: 200px;
+}
+
 #headline{
     position: absolute;
-    height: 150px;
+    height: var(--headline-height);
     width:100%;
     margin: -8px;
     padding: 0px;
-    background-image: linear-gradient(-170deg, rgba(0, 255, 156, 0.9), rgba(0, 179, 109, 0.9));
+    background-image: linear-gradient(-170deg, rgba(0, 255, 156, 0.9), rgba(0, 179, 109, 0.8));
+    box-shadow: 0px 2px 8px rgba(50,50,50,0.4);
+    white-space: nowrap;
 }
 
 #headline > #title {
     font-family: 'Roboto', sans-serif;
-    text-align: center;
     font-size: 40px;
+    position: absolute;
+    margin: 0px;
+    transform: translate(-50%, -50%);
+    top: 33%;
+    left: 50%;
 }
 
 #headline > #subtitle {
     font-family: 'Roboto', sans-serif;
-    text-align: center;
+    font-style: italic;
+    color: rgb(70,70,70);
     font-size: 25px;
+    position: absolute;
+    margin: 0px;
+    transform: translate(-50%, -50%);
+    top: 70%;
+    left: 50%;
 }
 
 h2{
@@ -48,8 +64,8 @@ input[type=file]{
 
 #nextPage{
     position: absolute;
-    top: 90%;
     left: 90%;
+    bottom: 25px;
     height: 50px;
     width: 50px;
     background-color: #00FF9C;
@@ -57,15 +73,32 @@ input[type=file]{
     font-family: 'Roboto', sans-serif;
     border-style: none;
     border-radius: 60px;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
     font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(50, 50, 50, 0.4);
+}
+
+#nextPage i {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  top: 20%;
+  left: 22%;
+}
+
+#nextPage input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  color: transparent;
+  background-color: transparent;
+  border-radius: 60px;
+  border-color: rgba(0,0,0,0);
 }
 
 #uploadFile{
     position: absolute;
-    top: 52%;
-    left: 50%;
+    margin: 0px;
     height: 120px;
     width: 250px;
     background-color: #00FF9C;
@@ -75,4 +108,6 @@ input[type=file]{
     border-radius: 10px;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    top: calc(var(--headline-height) + (1080px - var(--headline-height)) / 4);
+    left: 50%;
 }

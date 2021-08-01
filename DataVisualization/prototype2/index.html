@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Home</title>
         <link rel="stylesheet" href="style.css">
+        <link href="icons.css" rel='stylesheet'>
     </head>
     <body>
         <div id="headline">
@@ -11,12 +12,11 @@
             <p id="subtitle">Select a file to begin</p>
         </div>
 
-
         <form action="columns.html" method="GET">
             <input type="file" name="data" accept=".csv" /><br />
-            <div>
-              <i class="gg-arrow-long-right"></i>
-              <input type="submit" value=">" id="nextPage"/>
+            <div  id="nextPage">
+              <i class="gg-arrow-right-o"></i>
+              <input type="submit" value=">"/>
             </div>
 
         </form>
