@@ -5,6 +5,9 @@
         <title>Home</title>
         <link rel="stylesheet" href="style.css">
         <link href="icons.css" rel='stylesheet'>
+        <script type="text/javascript" src="logic.js">
+
+        </script>
     </head>
     <body>
         <div id="headline">
@@ -13,7 +16,7 @@
         </div>
 
         <form action="columns.html" method="GET">
-            <input id="UpFile" type="file" name="data" accept=".csv" /><br />
+            <input id="UpFile" type="file" name="data" accept=".csv" onchange="openFile(event)"/><br />
             <div  id="nextPage">
               <i class="gg-arrow-right-o"></i>
               <input type="submit" value=""/>
@@ -22,7 +25,7 @@
         </form>
 
         <div id="uploadFile" onclick="document.getElementById('UpFile').click()">
-            <h2>upload file</h2>
+            <h2 id="loadedFile">Upload file</h2>
         </div>
 
     </body>
