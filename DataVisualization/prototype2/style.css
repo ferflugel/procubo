@@ -48,18 +48,18 @@ h2{
 
 input[type=file]{
     position: absolute;
-    top: 52%;
+    top: 60%;
     left: 50%;
-    height: 120px;
-    width: 250px;
-    background-color: #00FF9C;
+    height: 0px;
     font-size: 30px;
     font-family: 'Roboto', sans-serif;
-    border-style: none;
+    border: none;
     border-radius: 10px;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    display: none;
+    /* display: none; */
+    background-color: transparent;
+    color: transparent;
 }
 
 #nextPage{

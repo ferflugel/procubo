@@ -13,15 +13,15 @@
         </div>
 
         <form action="columns.html" method="GET">
-            <input type="file" name="data" accept=".csv" /><br />
+            <input id="UpFile" type="file" name="data" accept=".csv" /><br />
             <div  id="nextPage">
               <i class="gg-arrow-right-o"></i>
-              <input type="submit" value=">"/>
+              <input type="submit" value=""/>
             </div>
 
         </form>
 
-        <div id="uploadFile">
+        <div id="uploadFile" onclick="document.getElementById('UpFile').click()">
             <h2>upload file</h2>
         </div>
 
