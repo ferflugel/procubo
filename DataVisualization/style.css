@@ -10,13 +10,9 @@
 
 .colorBar label{
     display: inline-block;
-    background-color: #ddd;
+    background-color: #bfb;
     padding: 20px 20px;
     border: 0;
-}
-
-#oneLabel{
-    background-color: #bfb;
 }
 
 
@@ -26,5 +22,8 @@
 
 .colorBar input[type="radio"]:checked + label {
     background-color: #bfb;
-    border-color: #bfb;
+}
+
+.colorBar input[type="radio"]:checked ~ label {
+    background-color: #ddd;
 }
