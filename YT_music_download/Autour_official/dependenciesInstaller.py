@@ -1,5 +1,5 @@
- import os, sys, shutil, logging, argparse, subprocess
- from time import sleep
+import os, sys, shutil, logging, argparse, subprocess
+from time import sleep
 
 #Configuring argparser for command line inputs
 parser = argparse.ArgumentParser()

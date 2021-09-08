@@ -6,7 +6,7 @@ def Browse():
     download_Path.set( askdirectory() )
 
 def Installer():
-    import dependenciesinstaller as depInst
+    import dependenciesInstaller as depInst
     if depInst.dependenciesAvailable:
         depInst.Install(download_Path)
 

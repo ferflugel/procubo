@@ -9,15 +9,18 @@ import DownloadVideo
 from functions import *
 
 #Stops program if it is not configured correctly
-if not DownloadVideo.dependencies.proceed:
+if not DownloadVideo.dependenciesInstaller.proceed:
     raise SystemExit(0)
 
 with open('memory.txt', 'w') as f:
     pass
 
 #Setting variables
-with open('config.txt', 'r') as f:
-    playlist_id = f.read().split('\n')[3]
+# with open('config.txt', 'r') as f:
+#     playlist_id = f.read().split('\n')[3]
+playlist_id = "PLLcpBVEQD-Czy_ykXnqiY0O2tN4EYzh6j"
+location = "M:\\"
+t = '0'
 credentials = None
 
 
@@ -61,7 +64,7 @@ while True:
     response = request.execute()
 
     IDs = ""
-    itemsIds = getAllPlaylistItems(response)
+    itemsIds = getAllPlaylistItems(response, youtube, playlist_id)
     mem = open('memory.txt', 'r')
     memory = mem.read().split('\n')
     mem.close()
@@ -71,7 +74,7 @@ while True:
         IDs += id+"\n"
 
         if id not in memory:
-            DownloadVideo.DownloadVideo(id)
+            DownloadVideo.DownloadVideo(id, location, t)
 
     logging.info("Nothing new, continuing...")
 

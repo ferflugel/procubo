@@ -138,13 +138,13 @@ def GetMetadata(file, aud):
     os.system("""rmdir "%s" """%simpleImagesFolder)
     os.remove(pivotFile)
 
-def getAllPlaylistItems(response):
+def getAllPlaylistItems(response, youtube, playlist_id):
     #Inspiration from 'https://gist.github.com/nkpro2000sr/e6aa5429319d5143f19b6cc29567be0b'
     nextPageToken = response.get('nextPageToken')
     IDs = list()
     while ( 'nextPageToken' in response ):
-        nextPage = youtube.search().list(
-            part = "status",
+        nextPage = youtube.playlistItems().list(
+            part = "snippet",
             playlistId = playlist_id,
             maxResults = 50,
             pageToken=nextPageToken
@@ -153,7 +153,7 @@ def getAllPlaylistItems(response):
         response['items'] = response['items'] + nextPage['items']
         #
         if 'nextPageToken' not in nextPage:
-            search_response.pop('nextPageToken', None)
+            response.pop('nextPageToken', None)
         else:
             nextPageToken = nextPage['nextPageToken']
     #
