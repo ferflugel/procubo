@@ -31,29 +31,35 @@ logging.basicConfig(level=level)
 logger = logging.getLogger(__name__)
 
 
-libraries = ['pydub', 'youtube-dl', 'mutagen', 'pafy', 'elevate', 'progressbar', 'httplib2', 'bs4']
+libraries = ['pydub', 'youtube-dl', 'mutagen', 'pafy',
+            'elevate', 'progressbar', 'httplib2', 'bs4',
+            'google_auth_oauthlib', 'google-api-python-client',
+            'google', 'python-magic', 'python-magic-bin']
 proceed = True
 
 
-#install required libraries
+#install required libraries, catching exceptions to not proceed with install
 try:
     os.system("pip install --upgrade -q -q %s"%(" ".join(libraries)))
     dependenciesAvailable = True
 except Exception as e:
+    print("error")
     logging.error("The following exception occurred:\n", e)
+    dependenciesAvailable = False
 
 globalFolder = ""
-execDir = "\\".join( ( __file__ ).split('\\')[:-1])
+execDir = "\\".join( ( __file__ ).split('\\')[:-1] )
 
-def Install(dstFolder):
-    from elevate import elevate
-    elevate()   #Ask for root permission to add to PATH
-    globalFolder = dstFolder
+def Install():
+    # from elevate import elevate
+    # elevate()   #Ask for root permission to add to PATH
+    globalFolder = os.path.abspath(execDir)
 
     try:
         #This part retrieves the latest FFmpeg upload link from Github
         import httplib2
         from bs4 import BeautifulSoup, SoupStrainer
+        import urllib.request as urllib
         http = httplib2.Http()
         ffmpegLink = ""
         status, response = http.request('https://github.com/BtbN/FFmpeg-Builds/releases/')
@@ -63,10 +69,11 @@ def Install(dstFolder):
                     ffmpegLink = "https://github.com/"+link['href']
                     break
 
+
         #Downloads the FFmpeg '.zip' file and extracts it
         os.mkdir(os.path.join(globalFolder, "ffmpeg"))
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
-        os.system("curl -L %s -o %s"%(ffmpegLink, ffmpeg))
+        urllib.urlretrieve(ffmpegLink, ffmpeg)
         os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
         os.system(f"del {ffmpeg}")
         zipFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), os.listdir(os.path.join(globalFolder, "ffmpeg"))[0])
@@ -74,9 +81,23 @@ def Install(dstFolder):
             shutil.move(os.path.join(zipFolder, file), os.path.join(globalFolder, "ffmpeg"))
 
         #Adds the ffmpeg executable to system environment variables
-        ffmpegFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
-        subprocess.call(fr"""setx /M PATH "%PATH%;{ffmpegFolder}" """, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, shell=True)     #Add to PATH without output
-
+        # ffmpegFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
+        # subprocess.call(fr"""setx /M PATH "%PATH%;{ffmpegFolder}" """, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, shell=True)     #Add to PATH without output
+        proceed = True
     except Exception as e:
+        print("error")
         logging.error(e)
         proceed = False
+
+def copyFiles(dstFolder):
+    #Makes sure path is written in the right format
+    destinationFolder = os.path.join(os.path.abspath(dstFolder), "Autour")
+    shutil.copy(execDir, destinationFolder)
+
+    # for file_name in os.listdir(execDir):
+    #     #Join full path
+    #     source = os.path.join(execDir, file_name)
+    #     dst = os.path.join(destinationFolder, file_name)
+    #
+    #     if os.path.isfile(source):
+    #         shutil.copy(source, dst)

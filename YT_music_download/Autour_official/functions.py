@@ -1,5 +1,5 @@
 import os, shutil, logging, argparse
-from pydub import AudioSegment as audio
+from pydub_0_25_1.pydub as pydub import AudioSegment as audio
 from random import choice
 from mutagen.easyid3 import EasyID3
 from simple_image_download import simple_image_download as simp
@@ -118,7 +118,9 @@ def GetMetadata(file, aud):
     thumbnail = os.path.join(thumbnailFolder, choice(os.listdir(thumbnailFolder)))
 
     #Joins the thumbnail and the video
-    os.system("""ffmpeg -loglevel warning -i "%s" -i "%s" -map_metadata 0 -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v comment="Cover (front)" "%s" """%(pivotFile, thumbnail, path))
+    ffmpegFolder = os.path.join(__file__, os.path.join("ffmpeg", "bin") + "ffmpeg.exe")
+    # os.system("""ffmpeg -loglevel warning -i "%s" -i "%s" -map_metadata 0 -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v comment="Cover (front)" "%s" """%(pivotFile, thumbnail, path))
+    os.system(f"{ffmpegFolder} -loglevel warning -i '{pivotFile}' -i '{thumbnail}' -map_metadata 0 -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v comment='Cover (front)' '{path}'")
 
     #Provides metadata properties to the file
     audio = EasyID3(path)
