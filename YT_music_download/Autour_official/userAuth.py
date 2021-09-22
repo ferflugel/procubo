@@ -70,6 +70,7 @@ def downloadPlaylist(playlist_id, destination, format):
             IDs += id+"\n"
 
             if id not in memory:
+                print(id + '\n' + destination + '\n' + format)
                 DownloadVideo.DownloadVideo(id, destination, format)
 
         logging.info("Nothing new, continuing...")

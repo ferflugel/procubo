@@ -1,10 +1,9 @@
 #Installing pre-dependencies
 import os, subprocess
-# os.system("pip install --upgrade -q -q %s"%(" ".join(["Pillow", "Tk", "elevate"])))
 subprocess.call("pip install --upgrade -q -q %s"%(" ".join(["Pillow", "Tk", "elevate"])))
 
-# from elevate import elevate
-# elevate()   #Ask for root permission to add to PATH
+from elevate import elevate
+elevate()   #Ask for root permission to add to PATH
 
 #Imports required libraries for GUI
 from tkinter import *
@@ -27,7 +26,7 @@ def Installer():
         #Kills install gui window
         root.destroy()
         #Opens main program gui
-        subprocess.call(f"pythonw {os.path.join(download_Path.get(), 'MainGUI.py')}")
+        subprocess.call(f"pythonw {os.path.join(download_Path.get(), 'Autour/MainGUI.pyw')}")
 
 def Widgets():
     #Loads logo image

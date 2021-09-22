@@ -9,9 +9,9 @@ def download(aud, location):
     if existence[0] == False:
         aud.getbestaudio().download(filepath=location, quiet=True)      #Downloads the file to the given location
         logging.info("\tSuccesfully downloaded %s!"%(title))
-        sleep(0.5)
+
         fileLocation = Cvt2Mp3(location, find(aud.title, location)[1])    #Audio files usually come in .webm format, which some players cannot reproduce, so
-                                    #PyDub is used to convert them to .mp3
+        #PyDub is used to convert them to .mp3
         logging.info("\tFile converted to mp3!")
 
         GetMetadata(fileLocation, aud)    #Use Youtube video's metadata to add to the file's metadata

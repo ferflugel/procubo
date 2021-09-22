@@ -1,8 +1,13 @@
-import os, shutil, logging, argparse
-from pydub_0_25_1.pydub as pydub import AudioSegment as audio
+import os, shutil, logging, argparse, subprocess
+from pydub_0_25_1.pydub import AudioSegment as audio
 from random import choice
 from mutagen.easyid3 import EasyID3
 from simple_image_download import simple_image_download as simp
+
+#Configures subprocess to not open terminal window
+si = subprocess.STARTUPINFO()
+si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
 
 #Configuring argparser for command line inputs
 parser = argparse.ArgumentParser()
@@ -114,13 +119,14 @@ def GetMetadata(file, aud):
     shutil.move(path, pivotFile)
 
     #Randomly choses one of the 5 thumbails returned from google search engine
-    images = [i for g, h, i in os.walk(thumbnailFolder)]
+    # images = [i for g, h, i in os.walk(thumbnailFolder)]
     thumbnail = os.path.join(thumbnailFolder, choice(os.listdir(thumbnailFolder)))
 
     #Joins the thumbnail and the video
     ffmpegFolder = os.path.join(__file__, os.path.join("ffmpeg", "bin") + "ffmpeg.exe")
     # os.system("""ffmpeg -loglevel warning -i "%s" -i "%s" -map_metadata 0 -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v comment="Cover (front)" "%s" """%(pivotFile, thumbnail, path))
-    os.system(f"{ffmpegFolder} -loglevel warning -i '{pivotFile}' -i '{thumbnail}' -map_metadata 0 -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v comment='Cover (front)' '{path}'")
+    # os.system(f"{ffmpegFolder} -loglevel warning -i '{pivotFile}' -i '{thumbnail}' -map_metadata 0 -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v comment='Cover (front)' '{path}'")
+    subprocess.call(f"""ffmpeg -loglevel warning -i "{pivotFile}" -i "{thumbnail}" -map_metadata 0 -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v comment="Cover (front)" "{path}" """, startupinfo=si, shell=True)
 
     #Provides metadata properties to the file
     audio = EasyID3(path)
@@ -136,8 +142,8 @@ def GetMetadata(file, aud):
     for f in os.listdir(thumbnailFolder):
         if file.lower() != "thumbnail.jpg":
             os.remove((os.path.join(thumbnailFolder, f)))
-    os.system("""rmdir "%s" """%thumbnailFolder)
-    os.system("""rmdir "%s" """%simpleImagesFolder)
+    subprocess.call("""rmdir "%s" """%thumbnailFolder, startupinfo=si, shell=True)
+    subprocess.call("""rmdir "%s" """%simpleImagesFolder, startupinfo=si, shell=True)
     os.remove(pivotFile)
 
 def getAllPlaylistItems(response, youtube, playlist_id):

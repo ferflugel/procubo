@@ -1,6 +1,11 @@
 import os, sys, shutil, logging, argparse, subprocess
 from time import sleep
 
+#Configures subprocess to not open terminal window
+si = subprocess.STARTUPINFO()
+si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+
 #Configuring argparser for command line inputs
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -40,7 +45,7 @@ proceed = True
 
 #install required libraries, catching exceptions to not proceed with install
 try:
-    os.system("pip install --upgrade -q -q %s"%(" ".join(libraries)))
+    subprocess.call("pip install --upgrade -q -q %s"%(" ".join(libraries)), startupinfo=si)
     dependenciesAvailable = True
 except Exception as e:
     print("error")
@@ -74,30 +79,31 @@ def Install():
         os.mkdir(os.path.join(globalFolder, "ffmpeg"))
         ffmpeg = os.path.join(globalFolder, "ffmpeg.zip")
         urllib.urlretrieve(ffmpegLink, ffmpeg)
-        os.system("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")))
-        os.system(f"del {ffmpeg}")
+        subprocess.call("tar -xf %s -C %s"%(ffmpeg, os.path.join(globalFolder, "ffmpeg")), startupinfo=si, shell=True)
+        subprocess.call(f"del {ffmpeg}", startupinfo=si, shell=True)
+        print('1')
         zipFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), os.listdir(os.path.join(globalFolder, "ffmpeg"))[0])
+        print('2')
         for file in os.listdir(zipFolder):
             shutil.move(os.path.join(zipFolder, file), os.path.join(globalFolder, "ffmpeg"))
 
         #Adds the ffmpeg executable to system environment variables
-        # ffmpegFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
-        # subprocess.call(fr"""setx /M PATH "%PATH%;{ffmpegFolder}" """, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, shell=True)     #Add to PATH without output
+        ffmpegFolder = os.path.join(os.path.join(globalFolder, "ffmpeg"), "bin")
+        subprocess.call(fr"""setx /M PATH "%PATH%;{ffmpegFolder}" """, stdout=subprocess.DEVNULL, startupinfo=si, stderr=subprocess.STDOUT, shell=True)     #Add to PATH without output
+
         proceed = True
+
+
     except Exception as e:
-        print("error")
         logging.error(e)
         proceed = False
 
 def copyFiles(dstFolder):
     #Makes sure path is written in the right format
     destinationFolder = os.path.join(os.path.abspath(dstFolder), "Autour")
-    shutil.copy(execDir, destinationFolder)
 
-    # for file_name in os.listdir(execDir):
-    #     #Join full path
-    #     source = os.path.join(execDir, file_name)
-    #     dst = os.path.join(destinationFolder, file_name)
-    #
-    #     if os.path.isfile(source):
-    #         shutil.copy(source, dst)
+    #Copies folder structure to chosen destination
+    shutil.copytree(execDir, destinationFolder)
+    proceed = True
+    #Removes ffmpeg folder from origin
+    # subprocess.call(f"del {ffmpegFolder}", startupinfo=si)
