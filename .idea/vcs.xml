@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pytorch_generative_all" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/style_transfer2/pytorch_generative_all" vcs="Git" />
   </component>
 </project>
