@@ -43,20 +43,8 @@ emotion_model.add(Dropout(0.5))
 emotion_model.add(Dense(5, activation='softmax'))
 
 emotion_model.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=0.0001, decay=1e-6), metrics=['accuracy'])
-"""
-emotion_model_info = emotion_model.fit(
-        train_generator,
-        steps_per_epoch=28709 // 64,
-        epochs=80,
-        verbose=1,
-        validation_freq=5,
-        validation_data=validation_generator,
-        validation_steps=7178 // 64)
-"""
-
 log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
-
 emotion_model_info = emotion_model.fit(
         train_generator,
         epochs=40,

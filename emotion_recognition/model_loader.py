@@ -3,8 +3,9 @@ from tensorflow.keras.preprocessing import image
 import cv2
 import numpy as np
 
+# It would be good to double check the functionality of this function
 def emotion_analysis(emotion):
-    objects = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+    objects = ['angry', 'fear', 'happy', 'sad', 'neutral']
     return objects[emotion]
 
 def process_image(file_path):
@@ -29,5 +30,5 @@ def get_emotion(file_path, model):
 
 # Testing the model
 emotion_model = load_model('baseline.h5')
-emotion_output = get_emotion('test_images/test_2.jpg', emotion_model)
-# emotion_output = get_emotion('images/validation/disgust/1115.jpg', emotion_model)
+# emotion_output = get_emotion('test_images/test_2.jpg', emotion_model)
+emotion_output = get_emotion('images/validation/angry/251.jpg', emotion_model)
