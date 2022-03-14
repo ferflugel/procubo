@@ -26,7 +26,7 @@ validation_generator = val_data_generator.flow_from_directory(
         color_mode="grayscale",
         class_mode="categorical")
 
-emotion_model = load_model('baseline4.h5')
+emotion_model = load_model('models/baseline4.h5')
 
 log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
