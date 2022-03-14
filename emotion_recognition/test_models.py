@@ -16,4 +16,4 @@ def get_emotion(file_path):
 
 for image in os.listdir('test_images'):
     result = get_emotion('test_images/' + image)
-    print(image, "\t:", result[1], result[2])
+    print(image, "\t:", result[1], result[2]) 
