@@ -240,23 +240,23 @@ class DETECTOR(object):
     @staticmethod
     def _get_labels():
         #For FER model use the following
-        # return {
-        #     0: "angry",
-        #     1: "disgust",
-        #     2: "fear",
-        #     3: "happy",
-        #     4: "sad",
-        #     5: "surprise",
-        #     6: "neutral",
-        # }
-        #Otherwise use this
         return {
             0: "angry",
-            1: "fear",
-            2: "happy",
-            3: "neutral",
+            1: "disgust",
+            2: "fear",
+            3: "happy",
             4: "sad",
+            5: "surprise",
+            6: "neutral",
         }
+        #Otherwise use this
+        # return {
+        #     0: "angry",
+        #     1: "fear",
+        #     2: "happy",
+        #     3: "neutral",
+        #     4: "sad",
+        # }
 
 
     def detect_emotions(
