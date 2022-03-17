@@ -34,6 +34,7 @@ import os
 import pkg_resources
 import requests
 import sys
+import matplotlib.pyplot as plt
 from typing import Sequence, Tuple, Union
 
 import cv2
