@@ -1,10 +1,10 @@
-from tensorflow.keras.models import load_model
+# from tensorflow.keras.models import load_model
 from dynamic_model_classifier import DETECTOR
 import cv2
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-from tensorflow.keras.preprocessing import image
+# from tensorflow.keras.preprocessing import image
 
 #Path to the model you want to use
 model_path = "models/fer_emotion_model.hdf5"
@@ -27,15 +27,15 @@ for image in os.listdir('test_images'):
     result = get_emotion('test_images/' + image)
     print(image, "\t:", result[1], result[2])
 
-cap = cv2.VideoCapture(0)
-
-for i in range(30):
-    temp = cap.read()
-_, frame = cap.read()
-plt.imshow(frame)
-plt.show()
-result = get_emotion(frame)
-print(image, "\t:", result[1], result[2])
+# cap = cv2.VideoCapture(0)
+#
+# for i in range(30):
+#     temp = cap.read()
+# _, frame = cap.read()
+# plt.imshow(frame)
+# plt.show()
+# result = get_emotion(frame)
+# print(image, "\t:", result[1], result[2])
 
 
 def show_live_video():
@@ -50,31 +50,29 @@ def show_live_video():
         _, frame = cap.read()
         # Convert to grayscale
         # gray = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        gray = process_image(frame)
         # Detect the faces
-        ce, de, es = get_emotion(gray)
-        print(frame)
+        ce, de, es = get_emotion(frame)
 
-        print(ce)
-        faces = ce[0]['box']
+        try:
+            faces = list(ce[0]['box'])
 
-        # Draw the rectangle around each face
-        for (x, y, w, h) in faces:
-            fc = frame[y:y+w, x:x+w]
-            # crop over resize
-            fin = cv2.resize(fc, (224, 224))
-            roi = cv2.resize(fc, (224, 224))
-            roi = np.expand_dims(roi, axis=0)
-            rounded_prediction = es
-            emotion = de
-            cv2.putText(frame, str(emotion), (x, y), font, 1, (255, 255, 0), 2)
-            cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
-        if cv2.waitKey(1) == 27:
-            break
-        # cv2.imshow('Filter', frame)
-
-        plt.imshow(frame)
-        plt.show()
+            # Draw the rectangle around each face
+            for x, y, w, h in [faces]:
+                fc = frame[y:y+w, x:x+w]
+                # crop over resize
+                fin = cv2.resize(fc, (224, 224))
+                roi = cv2.resize(fc, (224, 224))
+                roi = np.expand_dims(roi, axis=0)
+                rounded_prediction = es
+                emotion = de
+                cv2.putText(frame, str(emotion), (x, y), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 0), 2)
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
+            if cv2.waitKey(1) == 27:
+                break
+        except:
+            pass
+            
+        cv2.imshow('Filter', frame)
 
         # Stop if escape key is pressed
         k = cv2.waitKey(30) & 0xff
@@ -82,6 +80,7 @@ def show_live_video():
             break
     # Release the VideoCapture object
     cap.release()
+    cv2.destroyAllWindows()
 
-# if __name__=="__main__":
-    # show_live_video()
+if __name__=="__main__":
+    show_live_video()
