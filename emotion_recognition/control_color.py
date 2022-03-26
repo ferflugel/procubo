@@ -1,10 +1,17 @@
 # from tensorflow.keras.models import load_model
 from dynamic_model_classifier import DETECTOR
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
-from time import time
-# from tensorflow.keras.preprocessing import image
+from openrgb import OpenRGBClient
+from openrgb.utils import RGBColor, DeviceType
+
+emotion_to_color = {'neutral': (122, 122, 122),
+                    'happy': (0, 255, 0),
+                    'sad': (0, 0, 255),
+                    'fear': (88, 88, 88),
+                    'surprise': (168, 50, 156),
+                    'disgust': (119, 168, 50),
+                    'angry': (255, 0, 0)}
 
 # Path to the model you want to use
 model_path = "models/fer_emotion_model.hdf5"
@@ -22,6 +29,10 @@ def get_emotion(file):
     dominant_emotion, emotion_score = emotion_classifier.top_emotion(file)
     return captured_emotions, dominant_emotion, emotion_score
 
+def led_control(emotion):
+    colors = emotion_to_color[emotion]
+    motherboard.set_color(RGBColor(colors[0], colors[1], colors[2]))
+
 def show_live_video():
     # To capture video from a webcam
     cap = cv2.VideoCapture(0)
@@ -29,21 +40,9 @@ def show_live_video():
     if not (cap.isOpened()):
         print('Could not open video device')
 
-    prevFrame = 0
-    newFrame = 0
-    fps = 0
-
     while True:
         # Read the frame
         _, frame = cap.read()
-        newFrame = time()
-        fps = int(1/(newFrame - prevFrame))
-        fps = str(fps)
-        prevFrame = newFrame
-        # Convert to grayscale
-        # gray = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        # Detect the faces
-        frame = cv2.rotate(frame, cv2.ROTATE_180)
         ce, de, es = get_emotion(frame)
 
         try:
@@ -58,28 +57,27 @@ def show_live_video():
                 roi = np.expand_dims(roi, axis=0)
                 rounded_prediction = es
                 emotion = de
-                print(de)
+                led_control(de)
                 cv2.putText(frame, str(emotion), (x, y), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 0), 2)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
             if cv2.waitKey(1) == 27:
                 break
         except:
             pass
-        try:
-            print(f"{de}: {es*100}%\n")
-        except TypeError:
-            print("Not recognized...")
-        cv2.putText(frame, fps, (7, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 0), 2)
+
         cv2.imshow('Filter', frame)
 
         # Stop if escape key is pressed
-        # k = cv2.waitKey(30) & 0xff
-        # if k == 27:
-        #     break
+        k = cv2.waitKey(30) & 0xff
+        if k == 27:
+            break
     # Release the VideoCapture object
     cap.release()
     cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
+    client = OpenRGBClient()
+    client.clear()  # Turns everything off
+    motherboard = client.get_devices_by_type(DeviceType.MOTHERBOARD)[0]
     show_live_video()
