@@ -1,11 +1,17 @@
 # from tensorflow.keras.models import load_model
 from dynamic_model_classifier import DETECTOR
 import cv2
-import os
-import matplotlib.pyplot as plt
 import numpy as np
+from openrgb import OpenRGBClient
+from openrgb.utils import RGBColor, DeviceType
 
-# from tensorflow.keras.preprocessing import image
+emotion_to_color = {'neutral': (122, 122, 122),
+                    'happy': (0, 255, 0),
+                    'sad': (0, 0, 255),
+                    'fear': (88, 88, 88),
+                    'surprise': (168, 50, 156),
+                    'disgust': (119, 168, 50),
+                    'angry': (255, 0, 0)}
 
 # Path to the model you want to use
 model_path = "models/fer_emotion_model.hdf5"
@@ -23,10 +29,9 @@ def get_emotion(file):
     dominant_emotion, emotion_score = emotion_classifier.top_emotion(file)
     return captured_emotions, dominant_emotion, emotion_score
 
-
-for image in os.listdir('test_images'):
-    result = get_emotion('test_images/' + image)
-    print(image, "\t:", result[1], result[2])
+def led_control(emotion):
+    colors = emotion_to_color[emotion]
+    motherboard.set_color(RGBColor(colors[0], colors[1], colors[2]))
 
 def show_live_video():
     # To capture video from a webcam
@@ -52,7 +57,7 @@ def show_live_video():
                 roi = np.expand_dims(roi, axis=0)
                 rounded_prediction = es
                 emotion = de
-                print(de)
+                led_control(de)
                 cv2.putText(frame, str(emotion), (x, y), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 0), 2)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
             if cv2.waitKey(1) == 27:
@@ -72,4 +77,7 @@ def show_live_video():
 
 
 if __name__ == "__main__":
+    client = OpenRGBClient()
+    client.clear()  # Turns everything off
+    motherboard = client.get_devices_by_type(DeviceType.MOTHERBOARD)[0]
     show_live_video()
