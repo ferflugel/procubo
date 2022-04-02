@@ -47,36 +47,45 @@ log = logging.getLogger("detector")
 
 NumpyRects = Union[np.ndarray, Sequence[Tuple[int, int, int, int]]]
 
-__author__ = "Justin Shenk"
+__author__ = "ProCubo"
 
 PADDING = 40
 SERVER_URL = "http://localhost:8501/v1/models/emotion_model:predict"
 
 
+# Config to turn on JIT compilation
+# import tensorflow as tf
+# @tf.function(jit_compile=True)
+
 def load_image(img):
     """Modified from github.com/serengil/deepface. Returns bgr (opencv-style) numpy array."""
     is_exact_image = is_base64_img = is_url_img = False
+    try:
+        if type(img).__module__ == np.__name__:
+            is_exact_image = True
+        elif img is None:
+            raise InvalidImage("Image not valid.")
+        elif len(img) > 11 and img[0:11] == "data:image/":
+            is_base64_img = True
+        elif len(img) > 11 and img.startswith("http"):
+            is_url_img = True
+    except Exception as e:
+        print(e)
 
-    if type(img).__module__ == np.__name__:
-        is_exact_image = True
-    elif img is None:
-        raise InvalidImage("Image not valid.")
-    elif len(img) > 11 and img[0:11] == "data:image/":
-        is_base64_img = True
-    elif len(img) > 11 and img.startswith("http"):
-        is_url_img = True
+    try:
+        if is_base64_img:
+            img = loadBase64Img(img)
+        elif is_url_img:
+            img = pil_to_bgr(Image.open(requests.get(img, stream=True).raw))
+        elif not is_exact_image:  # image path passed as input
+            if not os.path.isfile(img):
+                raise ValueError(f"Confirm that {img} exists")
+            img = cv2.imread(img, 3)
 
-    if is_base64_img:
-        img = loadBase64Img(img)
-    elif is_url_img:
-        img = pil_to_bgr(Image.open(requests.get(img, stream=True).raw))
-    elif not is_exact_image:  # image path passed as input
-        if not os.path.isfile(img):
-            raise ValueError(f"Confirm that {img} exists")
-        img = cv2.imread(img, 3)
-
-    if img is None or not hasattr(img, "shape"):
-        raise InvalidImage("Image not valid.")
+        if img is None or not hasattr(img, "shape"):
+            raise InvalidImage("Image not valid.")
+    except Exception as e:
+        print(e)
 
     return img
 
@@ -197,6 +206,7 @@ class DETECTOR(object):
 
     def find_faces(self, img: np.ndarray, bgr=True) -> list:
         """Image to list of faces bounding boxes(x,y,w,h)"""
+        img = np.array(img)
         if isinstance(self.__face_detector, cv2.CascadeClassifier):
             if bgr:
                 gray_image_array = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -269,6 +279,7 @@ class DETECTOR(object):
         :return: list containing all the bounding boxes detected with their emotions.
         """
         img = load_image(img)
+        img = np.array(img)
 
         emotion_labels = self._get_labels()
 
