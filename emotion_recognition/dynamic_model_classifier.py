@@ -337,6 +337,7 @@ class DETECTOR(object):
                 dict(box=face_rectangles[face_idx], emotions=labelled_emotions)
             )
 
+        # mutableOutput.append(emotions)
         self.emotions = emotions
 
         return emotions
@@ -349,7 +350,7 @@ class DETECTOR(object):
         :return: top emotion and score (for first face in frame) or (None, None)
 
         """
-        emotions = self.detect_emotions(img=img)
+        emotions = self.detect_emotions(img)
         top_emotions = [
             max(e["emotions"], key=lambda key: e["emotions"][key]) for e in emotions
         ]

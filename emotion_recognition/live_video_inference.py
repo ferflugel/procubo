@@ -4,12 +4,28 @@ import matplotlib.pyplot as plt
 import numpy as np
 from time import time
 
+from threading import Thread
 
 # Path to the model you want to use
 model_path = "models/fer_emotion_model.hdf5"
 
 # Initialize instance of the model to evaluate the inputs
 emotion_classifier = DETECTOR(model_path)
+
+def getTopEmotion(ce):
+
+    top_emotions = [
+        max(e["emotions"], key=lambda key: e["emotions"][key]) for e in ce
+    ]
+
+    # Take first face
+    if len(top_emotions):
+        top_emotion = top_emotions[0]
+    else:
+        return (None, None)
+    score = ce[0]["emotions"][top_emotion]
+
+    return top_emotion, score
 
 def get_emotion(file):
     try:
@@ -18,7 +34,7 @@ def get_emotion(file):
         file = file  # If file was passed as np.ndarray
 
     captured_emotions = emotion_classifier.detect_emotions(file)
-    dominant_emotion, emotion_score = emotion_classifier.top_emotion(file)
+    dominant_emotion, emotion_score = getTopEmotion(captured_emotions)
     return captured_emotions, dominant_emotion, emotion_score
 
 def get_frame(device):
