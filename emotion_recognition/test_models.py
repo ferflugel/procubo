@@ -1,10 +1,7 @@
-# from tensorflow.keras.models import load_model
 from dynamic_model_classifier import DETECTOR
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 from time import time
-# from tensorflow.keras.preprocessing import image
 
 # Path to the model you want to use
 model_path = "models/fer_emotion_model.hdf5"
