@@ -1,10 +1,9 @@
 # from tensorflow.keras.models import load_model
 from dynamic_model_classifier import DETECTOR
 import cv2
-import os
 import matplotlib.pyplot as plt
 import numpy as np
-
+from time import time
 # from tensorflow.keras.preprocessing import image
 
 # Path to the model you want to use
@@ -23,11 +22,6 @@ def get_emotion(file):
     dominant_emotion, emotion_score = emotion_classifier.top_emotion(file)
     return captured_emotions, dominant_emotion, emotion_score
 
-
-for image in os.listdir('test_images'):
-    result = get_emotion('test_images/' + image)
-    print(image, "\t:", result[1], result[2])
-
 def show_live_video():
     # To capture video from a webcam
     cap = cv2.VideoCapture(0)
@@ -35,9 +29,21 @@ def show_live_video():
     if not (cap.isOpened()):
         print('Could not open video device')
 
+    prevFrame = 0
+    newFrame = 0
+    fps = 0
+
     while True:
         # Read the frame
         _, frame = cap.read()
+        newFrame = time()
+        fps = int(1/(newFrame - prevFrame))
+        fps = str(fps)
+        prevFrame = newFrame
+        # Convert to grayscale
+        # gray = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        # Detect the faces
+        frame = cv2.rotate(frame, cv2.ROTATE_180)
         ce, de, es = get_emotion(frame)
 
         try:
@@ -59,13 +65,17 @@ def show_live_video():
                 break
         except:
             pass
-
+        try:
+            print(f"{de}: {es*100}%\n")
+        except TypeError:
+            print("Not recognized...")
+        cv2.putText(frame, fps, (7, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 0), 2)
         cv2.imshow('Filter', frame)
 
         # Stop if escape key is pressed
-        k = cv2.waitKey(30) & 0xff
-        if k == 27:
-            break
+        # k = cv2.waitKey(30) & 0xff
+        # if k == 27:
+        #     break
     # Release the VideoCapture object
     cap.release()
     cv2.destroyAllWindows()
