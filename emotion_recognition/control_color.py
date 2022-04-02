@@ -19,6 +19,7 @@ model_path = "models/fer_emotion_model.hdf5"
 # Initialize instance of the model to evaluate the inputs
 emotion_classifier = DETECTOR(model_path)
 
+
 def get_emotion(file):
     try:
         file = cv2.imread(file, 1)  # File passed as path
@@ -29,9 +30,15 @@ def get_emotion(file):
     dominant_emotion, emotion_score = emotion_classifier.top_emotion(file)
     return captured_emotions, dominant_emotion, emotion_score
 
-def led_control(emotion):
-    colors = emotion_to_color[emotion]
+
+def led_control(emotion, confidence, streak):
+    if confidence > 0.8 or streak > 1:
+        colors = emotion_to_color[emotion]
+    else:
+        colors = emotion_to_color['neutral']
+
     client.set_color(RGBColor(colors[0], colors[1], colors[2]))
+
 
 def show_live_video():
     # To capture video from a webcam
@@ -39,6 +46,9 @@ def show_live_video():
 
     if not (cap.isOpened()):
         print('Could not open video device')
+
+    previous_emotion = None
+    streak = 0
 
     while True:
         # Read the frame
@@ -55,9 +65,13 @@ def show_live_video():
                 fin = cv2.resize(fc, (224, 224))
                 roi = cv2.resize(fc, (224, 224))
                 roi = np.expand_dims(roi, axis=0)
-                rounded_prediction = es
                 emotion = de
-                led_control(de)
+                if emotion == previous_emotion:
+                    streak += 1
+                else:
+                    streak = 0
+                    previous_emotion = emotion
+                led_control(emotion, es, streak)
                 cv2.putText(frame, str(emotion), (x, y), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 0), 2)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
             if cv2.waitKey(1) == 27:
