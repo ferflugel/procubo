@@ -31,11 +31,11 @@ def get_emotion(file):
 
 def led_control(emotion):
     colors = emotion_to_color[emotion]
-    motherboard.set_color(RGBColor(colors[0], colors[1], colors[2]))
+    client.set_color(RGBColor(colors[0], colors[1], colors[2]))
 
 def show_live_video():
     # To capture video from a webcam
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
 
     if not (cap.isOpened()):
         print('Could not open video device')
@@ -79,5 +79,4 @@ def show_live_video():
 if __name__ == "__main__":
     client = OpenRGBClient()
     client.clear()  # Turns everything off
-    motherboard = client.get_devices_by_type(DeviceType.MOTHERBOARD)[0]
     show_live_video()
