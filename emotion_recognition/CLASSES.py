@@ -52,7 +52,7 @@ class VideoStream:
 
 class DetectionModel:
     def __init__(self, modelPath):
-        self.classifier = DETECTOR(modelPath)
+        self.classifier = DETECTOR(modelPath, mtcnn=True)
         self.predictions = None
         self.dominant_emotion = None
         self.emotion_score = None

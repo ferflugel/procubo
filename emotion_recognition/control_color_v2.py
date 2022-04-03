@@ -13,13 +13,11 @@ emotion_to_color = {'neutral': (122, 122, 122),
                     'disgust': (119, 168, 50),
                     'angry': (255, 0, 0)}  # Dictionary of colors for each emotion
 
-def led_control(emotion, confidence, streak, previous_emotion="neutral"):
-    if confidence > 0.8 or streak > 0:
+def led_control(emotion, confidence, streak):
+    if confidence > 0.8 or streak > 5:
         colors = emotion_to_color[emotion]  # If the emotion is recognized, get the color
-    else:
-        colors = emotion_to_color[previous_emotion]  # If the emotion is not recognized, set the color to neutral
-
-    client.set_color(RGBColor(colors[0], colors[1], colors[2]))  # Set the color of the LED
+        client.set_color(RGBColor(colors[0], colors[1], colors[2]))  # Set the color of the LED
+        print(f"{emotion}: {confidence * 100}%\n")
 
 def main():
 
@@ -29,7 +27,7 @@ def main():
 
     while True:
         frame = webcam.frame  # Get the frame from the video stream
-        # frame = cv2.rotate(frame, cv2.ROTATE_180) # Rotate the frame 180 degrees
+        frame = cv2.rotate(frame, cv2.ROTATE_180) # Rotate the frame 180 degrees
 
         emotion_classifier.predict(frame)  # Predict the emotion
         try:
@@ -47,12 +45,12 @@ def main():
                 else:
                     streak = 0
                     previous_emotion = emotion
-                led_control(emotion, confidence, streak, previous_emotion)  # Control the LED's color
+
+                led_control(emotion, confidence, streak)  # Control the LED's color
 
                 cv2.putText(frame, str(emotion), (x, y), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 0), 2)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)  # Draw a rectangle around the face
 
-            print(f"{emotion}: {confidence * 100}%\n")
         except:
             print("Not recognized...")
 
