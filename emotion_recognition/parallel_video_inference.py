@@ -20,7 +20,7 @@ def main():
     while True:
 
         frame = webcam.frame
-        frame = cv2.rotate(frame, cv2.ROTATE_180) # COMMENT THIS LINE IF YOUR IMAGE IS UPSIDE DOWN
+        # frame = cv2.rotate(frame, cv2.ROTATE_180) # COMMENT THIS LINE IF YOUR IMAGE IS UPSIDE DOWN
 
         # Detect the faces
         emotion_classifier.predict(frame)
