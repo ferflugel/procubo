@@ -3,7 +3,7 @@ from openrgb import OpenRGBClient
 from openrgb.utils import RGBColor
 
 model_path = "models/fer_emotion_model.hdf5"  # Path to the model you want to use
-emotion_classifier = DetectionModel(model_path)  # Initialize the model
+emotion_classifier = DetectionModel(model_path, faceDetector="ssd")  # Initialize the model
 webcam = VideoStream()  # Initialize video stream instance
 emotion_to_color = {'neutral': (122, 122, 122),
                     'happy': (0, 255, 0),

@@ -51,8 +51,14 @@ class VideoStream:
         cv2.destroyAllWindows()
 
 class DetectionModel:
-    def __init__(self, modelPath):
-        self.classifier = DETECTOR(modelPath, mtcnn=True)
+    def __init__(self, modelPath, faceDetector="haar"):
+        if faceDetector == "haar":
+            self.classifier = DETECTOR(modelPath)
+        elif faceDetector == "ssd":
+            self.classifier = DETECTOR(modelPath, ssd=True)
+        elif faceDetector == "mtcnn":
+            elf.classifier = DETECTOR(modelPath, mtcnn=True)
+
         self.predictions = None
         self.dominant_emotion = None
         self.emotion_score = None

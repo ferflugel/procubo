@@ -102,6 +102,7 @@ class DETECTOR(object):
         model_path,
         cascade_file: str = None,
         mtcnn=False,
+        ssd=False,
         tfserving: bool = False,
         scale_factor: float = 1.1,
         min_face_size: int = 50,
@@ -134,6 +135,10 @@ class DETECTOR(object):
                 )
             self.__face_detector = "mtcnn"
             self._mtcnn = MTCNN()
+        elif ssd:
+            from single_shot_detection import TensoflowFaceDector
+            self.__face_detector = "ssd"
+            self._ssd = TensoflowFaceDector()
         else:
             self.__face_detector = cv2.CascadeClassifier(cascade_file)
 
@@ -223,6 +228,11 @@ class DETECTOR(object):
         elif self.__face_detector == "mtcnn":
             results = self._mtcnn.detect_faces(img)
             faces = [x["box"] for x in results]
+
+        elif self.__face_detector == "ssd":
+            results = self._ssd.run(img)
+            faces = [x[0] for x in results]
+
 
         return faces
 
