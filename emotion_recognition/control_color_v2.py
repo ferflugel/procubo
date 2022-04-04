@@ -2,8 +2,15 @@ from CLASSES import *
 from openrgb import OpenRGBClient
 from openrgb.utils import RGBColor
 
+try:
+    client = OpenRGBClient()  # Initialize OpenRGB client
+    client.clear()  # Clear all LEDs
+    print("CONNECTED")
+except:
+    print("SOMETHING WENT WRONG WHEN CONNECTING TO THE OpenRGB SERVER...\n\tKILLING PROCESS...")
+
 model_path = "models/fer_emotion_model.hdf5"  # Path to the model you want to use
-emotion_classifier = DetectionModel(model_path, faceDetector="ssd")  # Initialize the model
+emotion_classifier = DetectionModel(model_path)  # Initialize the model
 webcam = VideoStream()  # Initialize video stream instance
 emotion_to_color = {'neutral': (122, 122, 122),
                     'happy': (0, 255, 0),
@@ -64,8 +71,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        client = OpenRGBClient()  # Initialize OpenRGB client
-        client.clear()  # Clear all LEDs
+        client.clear()
         main()
     except KeyboardInterrupt:
         webcam.thread.join()
