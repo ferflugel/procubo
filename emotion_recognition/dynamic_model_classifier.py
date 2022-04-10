@@ -195,7 +195,15 @@ class DETECTOR(object):
     @staticmethod
     def tosquare(bbox):
         """Convert bounding box to square by elongating shorter side."""
-        x, y, w, h = bbox
+        try:
+            x, y, w, h = bbox
+        except Exception as e:
+            if(e == TypeError):
+                bbox = bbox.tolist()
+                x, y, w, h = bbox
+            elif(e == ValueError):
+                return None
+
         if h > w:
             diff = h - w
             x -= diff // 2
@@ -232,7 +240,7 @@ class DETECTOR(object):
         elif self.__face_detector == "ssd":
             results = self._ssd.run(img)
             try:
-                faces = [x[0] for x in results]
+                faces = results[0]
             except:
                 faces = []
 

@@ -68,15 +68,18 @@ class TensoflowFaceDetector():
             feed_dict={image_tensor: image_np_expanded})
         elapsed_time = time.time() - start_time
         print('inference time cost: {}'.format(elapsed_time))
+
+        # Convert coordinate system
         box = []
         try:
-            boxes = boxes[0][0][np.argmax(boxes[1][0])]
+            boxes = boxes[0][np.argmax(boxes[0])]
             bWidth = boxes[2]*width-boxes[0]*width
-            bHeight = boxes[1]*height-boxes[3]*height
-            box = [boxes[1]*width, boxes[0]*height, bWidth, bHeight]
-        except:
+            bHeight = boxes[3]*height-boxes[1]*height
+            box = [int(boxes[1]*width), int(boxes[0]*height), int(bWidth), int(bHeight)]
+        except IndexError:
             pass
-        return (box, scores, classes, num_detections)
+
+        return ([box], scores, classes, num_detections)
 
 
 if __name__ == "__main__":
