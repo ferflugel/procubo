@@ -19,7 +19,7 @@ label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
 categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
 category_index = label_map_util.create_category_index(categories)
 
-class TensoflowFaceDector():
+class TensoflowFaceDetector():
     def __init__(self, PATH_TO_CKPT=PATH_TO_CKPT):
         """Tensorflow detector
         """
@@ -68,10 +68,14 @@ class TensoflowFaceDector():
             feed_dict={image_tensor: image_np_expanded})
         elapsed_time = time.time() - start_time
         print('inference time cost: {}'.format(elapsed_time))
-        boxes = boxes[0][0][np.argmax(boxes[1][0])]
-        bWidth = boxes[2]*width-boxes[0]*width
-        bHeight = boxes[1]*height-boxes[3]*height
-        box = [boxes[1]*width, boxes[0]*height, bWidth, bHeight]
+        box = []
+        try:
+            boxes = boxes[0][0][np.argmax(boxes[1][0])]
+            bWidth = boxes[2]*width-boxes[0]*width
+            bHeight = boxes[1]*height-boxes[3]*height
+            box = [boxes[1]*width, boxes[0]*height, bWidth, bHeight]
+        except:
+            pass
         return (box, scores, classes, num_detections)
 
 

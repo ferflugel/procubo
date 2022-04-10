@@ -1,8 +1,8 @@
 from dynamic_model_classifier import DETECTOR
 import cv2, queue
-from threading import Thread
+from threading import Thread, Timer
 import numpy as np
-from time import time
+from time import time, sleep
 
 class VideoStream:
     def __init__(self, src=0):
@@ -14,10 +14,14 @@ class VideoStream:
         self.fps = 0
         self.thread = None
         self.stopped = False
+        self.fpsLimit = 12.0
 
     def start(self):
         self.thread = Thread(target=self.update, args=()).start()
         return self
+
+    def readImg(self):
+        (self.grabbed, self.frame) = self.stream.read()
 
     def update(self):
 		# keep looping infinitely until the thread is stopped
@@ -27,11 +31,15 @@ class VideoStream:
 			# if the thread indicator variable is set, stop the thread
             if self.stopped:
                 break
-			# otherwise, read the next frame from the stream
-            (self.grabbed, self.frame) = self.stream.read()
 
             # Calculate FPS
             newFrame = time()
+			# otherwise, read the next frame from the stream
+            self.readImg()
+            sleep(0.1)
+            # t = Timer(0.5, readImg)
+            # t.start()
+
             self.fps = int(1/(newFrame - prevFrame))
             prevFrame = newFrame
 

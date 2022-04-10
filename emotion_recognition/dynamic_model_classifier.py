@@ -136,9 +136,9 @@ class DETECTOR(object):
             self.__face_detector = "mtcnn"
             self._mtcnn = MTCNN()
         elif ssd:
-            from single_shot_detection import TensoflowFaceDector
+            from single_shot_detection import TensoflowFaceDetector
             self.__face_detector = "ssd"
-            self._ssd = TensoflowFaceDector()
+            self._ssd = TensoflowFaceDetector()
         else:
             self.__face_detector = cv2.CascadeClassifier(cascade_file)
 
@@ -231,8 +231,10 @@ class DETECTOR(object):
 
         elif self.__face_detector == "ssd":
             results = self._ssd.run(img)
-            faces = [x[0] for x in results]
-
+            try:
+                faces = [x[0] for x in results]
+            except:
+                faces = []
 
         return faces
 
